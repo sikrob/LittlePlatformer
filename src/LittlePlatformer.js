@@ -14,17 +14,23 @@ var createCanvas = function() {
 
 var LittlePlatformer = function() {
 	var canvasContext = createCanvas();
+	var curState = new MenustateClass();
 
-	var curState = new GamestateClass(); // should be MenuStateClass();
-/*
-		while(true){
-			curState.getInput();
-			curState.update();
-			curState.render(canvasContext); // will be inside a loop
+	while(true) {
+		//curState.input();
+		//curState.update();
+		//curState.render(canvasContext);
 
-			if (curState.newState != "") {
-				set curState to newState (clean up may be necessary)
+		if (curState.newState != "") {
+			if (curState.newState == "play") {
+				curState = null;
+				curState = new PlaystateClass();
+			} else if (curState.newState == "menu") {
+				curState = null;
+				curState = new MenustateClass();
 			}
 		}
-*/
+
+		break;
+	}
 };
