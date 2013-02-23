@@ -7,5 +7,5 @@ var main = function() {
 	LittlePlatformer(); // Located in LittlePlatformer.js
 };
 
-// This is to be the *ONLY* global scope line.
+// This is to be the *ONLY* global scope call.
 main();

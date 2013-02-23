@@ -10,11 +10,11 @@ function GamestateClass() {
 	this.newState = "";
 };
 
-GamestateClass.prototype.input = function () {
-}
+GamestateClass.prototype.getInput = function () {
+};
 
 GamestateClass.prototype.update = function () {
-}
+};
 
 GamestateClass.prototype.render = function (canvasContext) {
-}
+};

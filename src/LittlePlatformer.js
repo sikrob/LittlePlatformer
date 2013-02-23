@@ -1,7 +1,6 @@
 // LittlePlatformer.js
 
 // This file contains the main gameloop and any intializations that it doesn't make sense to put somewhere else.
-// Initializations include: canvas
 
 var createCanvas = function() {
 	var canvas = document.createElement("canvas");
@@ -12,25 +11,36 @@ var createCanvas = function() {
 	return canvasContext;
 };
 
+var LittlePlatformerGameLoop = function(canvasContext, curState, keysDown) {
+	curState.getInput(keysDown); // consider folding this into update.
+	curState.update();
+	curState.render(canvasContext);
+
+	if (curState.newState != "") {
+		if (curState.newState == "play") {
+			curState = null;
+			curState = new PlaystateClass();
+		} else if (curState.newState == "menu") {
+			curState = null;
+			curState = new MenustateClass();
+		}
+	}
+}
+
 var LittlePlatformer = function() {
 	var canvasContext = createCanvas();
+	canvasContext.font = "10px Helvetica";
+	canvasContext.fillText("Canvas created; context obtained!", 10, 10);
+
+	var keysDown = {};
+	addEventListener("keydown", function (e) { keysDown[e.keyCode] = true; }, false);
+	addEventListener("keyup", function (e) { delete keysDown[e.keyCode]; }, false);
+	canvasContext.fillText("Key event listeners created!", 10, 20);
+
 	var curState = new MenustateClass();
+	canvasContext.fillText("Initial Menustate created!", 10, 30);
 
-	while(true) {
-		//curState.input();
-		//curState.update();
-		//curState.render(canvasContext);
-
-		if (curState.newState != "") {
-			if (curState.newState == "play") {
-				curState = null;
-				curState = new PlaystateClass();
-			} else if (curState.newState == "menu") {
-				curState = null;
-				curState = new MenustateClass();
-			}
-		}
-
-		break;
-	}
+	// Pass in with anonymous function because otherwise it sets the code to execute as the
+	// result of LittlePlatformerGameLoop, which is null.
+	setInterval(function() {LittlePlatformerGameLoop(canvasContext, curState, keysDown)}, 10);
 };
