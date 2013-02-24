@@ -12,8 +12,7 @@ var createCanvas = function() {
 };
 
 var LittlePlatformerGameLoop = function(canvasContext, curState, keysDown) {
-	curState.getInput(keysDown); // consider folding this into update.
-	curState.update();
+	curState.update(keysDown);
 	curState.render(canvasContext);
 
 	if (curState.newState != "") {
@@ -42,5 +41,5 @@ var LittlePlatformer = function() {
 
 	// Pass in with anonymous function because otherwise it sets the code to execute as the
 	// result of LittlePlatformerGameLoop, which is null.
-	setInterval(function() {LittlePlatformerGameLoop(canvasContext, curState, keysDown)}, 10);
+	setInterval(function() {LittlePlatformerGameLoop(canvasContext, curState, keysDown)}, 17);
 };
