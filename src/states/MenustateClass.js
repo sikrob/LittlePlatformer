@@ -28,6 +28,19 @@ MenustateClass.prototype.update = function (keysDown) {
 		} else {
 			this.selectedOption = 1;
 		}
+
+		// May wrap this up in a function for just removing all bits for ease.
+		// Or maybe an array of possible functions that gets passed in, but that
+		// might defeat the purpose if we need to still manually assign the array.
+		if (getConstant("W") in keysDown) {
+			delete keysDown[getConstant("W")];
+		} else if (getConstant("UP") in keysDown) {
+			delete keysDown[getConstant("UP")];
+		} else if (getConstant("S") in keysDown) {
+			delete keysDown[getConstant("S")];
+		} else if (getConstant("DOWN") in keysDown) {
+			delete keysDown[getConstant("DOWN")];
+		}
 	}
 
 	if (this.selectedOption == 1) {

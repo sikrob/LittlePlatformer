@@ -32,9 +32,16 @@ var LittlePlatformer = function() {
 	canvasContext.fillText("Canvas created; context obtained!", 10, 10);
 
 	var keysDown = {};
-	addEventListener("keydown", function (e) { keysDown[e.keyCode] = true; }, false);
-	addEventListener("keyup", function (e) { delete keysDown[e.keyCode]; }, false);
-	canvasContext.fillText("Key event listeners created!", 10, 20);
+	window.addEventListener("keydown", function (e) {
+		keysDown[e.keyCode] = true;
+	}, false);
+	window.addEventListener("keyup", function (e) {
+		if (e.keyCode in keysDown) {
+			delete keysDown[e.keyCode];
+		}
+	}, false);
+
+	canvasContext.fillText("listeners initialized!", 10, 20);
 
 	var curState = new MenustateClass();
 	canvasContext.fillText("Initial Menustate created!", 10, 30);
