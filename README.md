@@ -3,7 +3,7 @@
 
 A simple platformer written in JavaScript and HTML5.
 
-This game is my second entry in [OneGameAMonth](onegameamonth.com)(1GAM). Compared to my last
+This game is my ~~second~~ third entry in [OneGameAMonth](onegameamonth.com)(1GAM). Compared to my first 
 game, this will be more complicated, but I have the advantage of having done something similar
 to this before. Admittedly, I'm not too familiar with JavaScript or even HTML/CSS, but since
 this project is just a basic version of what I'm doing for next month, that should still be

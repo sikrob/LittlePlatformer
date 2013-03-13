@@ -3,8 +3,10 @@
 MenustateClass.prototype = new GamestateClass();
 MenustateClass.prototype.constructor = MenustateClass;
 function MenustateClass() {
+	this.stateName = "menu";
+
 	this.userInput = "";
-	this.selectedOption = 1; // 1=PLAY 2=NOPE
+	this.selectedOption = 1; // 1=PLAY 2=ABOUT
 
 	// arrow info
 	this.arrowFont = "36px Helvetica";
@@ -19,6 +21,12 @@ MenustateClass.prototype.update = function (keysDown) {
 
 	if (getConstant("SPACEBAR") in keysDown || getConstant("ENTER") in keysDown) {
 		this.userInput = this.userInput + "SELECT";
+		if (this.selectedOption == 1) {
+			this.newState = "play";
+		} else if (this.selectedOption == 2) {
+			// Theoretically should do something here, but I don't know that I feel like coding an About screen no one will ever look at.
+			// May just remove this menu option for this game but keep the coding ideas saved somewhere for the next so I don't forget.
+		}
 	}
 
 	if (getConstant("W") in keysDown || getConstant("UP") in keysDown || getConstant("S") in keysDown || getConstant("DOWN") in keysDown) {
@@ -69,12 +77,13 @@ MenustateClass.prototype.render = function (canvasContext) {
 	canvasContext.font = "36px Helvetica";
 	canvasContext.fillText("PLAY", 330, 310);
 	canvasContext.strokeText("PLAY", 330, 310);
-	canvasContext.fillText("NOPE", 330, 350);
-	canvasContext.strokeText("NOPE", 330, 350);
+	canvasContext.fillText("ABOUT", 330, 350);
+	canvasContext.strokeText("ABOUT", 330, 350);
 
 	// DEBUG
 	canvasContext.font = "10px Helvetica";
 	canvasContext.fillText("DEBUG:" + this.userInput, 10, 500);
+	canvasContext.fillText(this.newState, 10, 515);
 
 	// dynamic content here
 	canvasContext.font = this.arrowFont;

@@ -11,19 +11,9 @@ var createCanvas = function() {
 	return canvasContext;
 };
 
-var LittlePlatformerGameLoop = function(canvasContext, curState, keysDown) {
-	curState.update(keysDown);
-	curState.render(canvasContext);
-
-	if (curState.newState != "") {
-		if (curState.newState == "play") {
-			curState = null;
-			curState = new PlaystateClass();
-		} else if (curState.newState == "menu") {
-			curState = null;
-			curState = new MenustateClass();
-		}
-	}
+var LittlePlatformerGameLoop = function(canvasContext, LPGSC, keysDown) { // LPGSC - LPGameStateController
+	LPGSC.update(keysDown);
+	LPGSC.render(canvasContext);
 }
 
 var LittlePlatformer = function() {
@@ -40,13 +30,15 @@ var LittlePlatformer = function() {
 			delete keysDown[e.keyCode];
 		}
 	}, false);
-
 	canvasContext.fillText("listeners initialized!", 10, 20);
 
-	var curState = new MenustateClass();
-	canvasContext.fillText("Initial Menustate created!", 10, 30);
+	var LPGSC = new LPGameStateController();
+	LPGSC.addState(new MenustateClass());
+	LPGSC.addState(new PlaystateClass());
+	LPGSC.changeState("menu"); // Set initial menu state outside of the loop but after states have been actually added.
+	canvasContext.fillText("State system initilized!", 10, 30);
 
 	// Pass in with anonymous function because otherwise it sets the code to execute as the
 	// result of LittlePlatformerGameLoop, which is null.
-	setInterval(function() {LittlePlatformerGameLoop(canvasContext, curState, keysDown)}, 17);
+	setInterval(function() {LittlePlatformerGameLoop(canvasContext, LPGSC, keysDown)}, 17);
 };

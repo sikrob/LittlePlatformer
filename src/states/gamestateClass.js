@@ -7,10 +7,11 @@
 // Probably should read a book on game design or something at some point.
 
 function GamestateClass() {
+	this.stateName = "gsc";
 	this.newState = "";
 };
 
-GamestateClass.prototype.update = function () {
+GamestateClass.prototype.update = function (keysDown) {
 };
 
 GamestateClass.prototype.render = function (canvasContext) {
