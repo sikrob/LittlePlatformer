@@ -22,7 +22,7 @@ MenustateClass.prototype.update = function (keysDown) {
 	if (getConstant("SPACEBAR") in keysDown || getConstant("ENTER") in keysDown) {
 		this.userInput = this.userInput + "SELECT";
 		if (this.selectedOption == 1) {
-			this.newState = "play";
+			this.newState = "play"; // This will get scooped up by the GSC, which will automatically enable the other state, pausing this one.
 		} else if (this.selectedOption == 2) {
 			// Theoretically should do something here, but I don't know that I feel like coding an About screen no one will ever look at.
 			// May just remove this menu option for this game but keep the coding ideas saved somewhere for the next so I don't forget.

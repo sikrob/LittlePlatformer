@@ -7,7 +7,22 @@ function PlaystateClass() {
 };
 
 PlaystateClass.prototype.update = function (keysDown) {
+	// is the level loaded?
+		// including loading: XML, player, graphics, and hopefully sound eventually.
+	// if yes, what all do we track? Right now just the player coordinates and the map coordinates, I think.
 
+	/*
+
+0	-
+1	-
+2	-
+3	-
+4	-
+5	-x
+6	--
+7	--
+
+	*/
 };
 
 PlaystateClass.prototype.render = function (canvasContext) {
