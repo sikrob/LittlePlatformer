@@ -8,8 +8,22 @@ var LPTiledMap = function() {
 }
 
 LPTiledMap.prototype.loadMap = function(mapName) {
-	var xmlHR = new XMLHttpRequest();
-	xmlHR.open("GET", "res/mapXML/test.xml");
+	//var xmlHR = new XMLHttpRequest();
+	//xmlHR.open("GET", "res/mapXML/test.xml", false);
+	//xmlHR.send();
+
+	var xhr = new XMLHttpRequest();
+	xhr.onload = function() {
+		var collectionLength = xhr.responseXML.documentElement.childNodes.length;
+		console.log(xhr.responseXML.documentElement.childNodes[1].nodeName);
+		console.log(collectionLength);
+	}
+	xhr.onerror = function() {
+		console.log("Error while getting XML.");
+	}
+	xhr.open("GET", "res/mapXML/test.xml");
+	xhr.responseType = "document";
+	xhr.send();
 
 	/*
 var xmlThing = new XMLHttpRequest();

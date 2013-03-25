@@ -4,9 +4,14 @@ PlaystateClass.prototype = new GamestateClass();
 PlaystateClass.prototype.constructor = PlaystateClass;
 function PlaystateClass() {
 	this.stateName = "play";
+	this.tiled = false;
+	this.tiledMap = new LPTiledMap();
 };
 
 PlaystateClass.prototype.update = function (keysDown) {
+	if (!this.tiled) {
+		this.tiledMap.loadMap("test.xml");
+	}
 	// is the level loaded?
 		// including loading: XML, player, graphics, and hopefully sound eventually.
 	// if yes, what all do we track? Right now just the player coordinates and the map coordinates, I think.
