@@ -8,29 +8,26 @@ var LPTiledMap = function() {
 }
 
 LPTiledMap.prototype.loadMap = function(mapName) {
-	//var xmlHR = new XMLHttpRequest();
-	//xmlHR.open("GET", "res/mapXML/test.xml", false);
-	//xmlHR.send();
+	var xmlHR = new XMLHttpRequest();
+	xmlHR.onload = function() {
+		var collectionLength = xmlHR.responseXML.documentElement.childNodes.length;
 
-	var xhr = new XMLHttpRequest();
-	xhr.onload = function() {
-		var collectionLength = xhr.responseXML.documentElement.childNodes.length;
-		console.log(xhr.responseXML.documentElement.childNodes[1].nodeName);
-		console.log(collectionLength);
+		for (var i = 0; i < collectionLength; i = i + 1) {
+			var tempNode = xmlHR.responseXML.documentElement.childNodes[i];
+			if (tempNode.nodeName == "tileset") {
+				console.log("moo");
+				// tempNode.attributes … is there a length for this as well? 
+			} else if (tempNode.nodeName == "layer") {
+				console.log("gum");
+			}
+		}
 	}
-	xhr.onerror = function() {
+	xmlHR.onerror = function() {
 		console.log("Error while getting XML.");
 	}
-	xhr.open("GET", "res/mapXML/test.xml");
-	xhr.responseType = "document";
-	xhr.send();
+	xmlHR.open("GET", "res/mapXML/test.xml"); // sanitized mapName goes here.
+	xmlHR.responseType = "document";
+	xmlHR.send();
 
-	/*
-var xmlThing = new XMLHttpRequest();
-//xmlThing.overrideMimeType('text/xml');
-xmlThing.open("GET", "f.xml", false);
-xmlThing.send(); // no local files. 
-if (xmlThing.status) {
-	cheese = true;*/
 	this.mapName = mapName;
 }
