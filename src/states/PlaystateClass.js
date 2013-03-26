@@ -11,6 +11,7 @@ function PlaystateClass() {
 PlaystateClass.prototype.update = function (keysDown) {
 	if (!this.tiled) {
 		this.tiledMap.loadMap("test.xml");
+		this.tiled = true;
 	}
 	// is the level loaded?
 		// including loading: XML, player, graphics, and hopefully sound eventually.

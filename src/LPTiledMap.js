@@ -5,22 +5,53 @@
 var LPTiledMap = function() {
 	this.mapName = "";
 	this.mapLoaded = false;
+
+	this.tileSetName = ""; // We can get the location without loading "image". Still need dimensions of image, though, so why bother?
+	this.tileSetFirstGID = -1;
+	this.tileSetTileWidth = -1;
+	this.tileSetTileHeight = -1;
 }
 
 LPTiledMap.prototype.loadMap = function(mapName) {
 	var xmlHR = new XMLHttpRequest();
 	xmlHR.onload = function() {
-		var collectionLength = xmlHR.responseXML.documentElement.childNodes.length;
+		var rootChildNodesLength = xmlHR.responseXML.documentElement.childNodes.length;
 
-		for (var i = 0; i < collectionLength; i = i + 1) {
+		for (var i = 0; i < rootChildNodesLength; i = i + 1) {
 			var tempNode = xmlHR.responseXML.documentElement.childNodes[i];
+
 			if (tempNode.nodeName == "tileset") {
-				console.log("moo");
-				// tempNode.attributes … is there a length for this as well? 
+				var attributesLength = tempNode.attributes.length;
+				for (var j = 0; j < attributesLength; j = j + 1) {
+					var tempAttribute = tempNode.attributes[j];
+
+					if (tempAttribute.name == "name") {
+						console.log("1");
+					} else if (tempAttribute.name == "firstgid") {
+						console.log("2");
+					} else if (tempAttribute.name == "tilewidth") {
+						console.log("3");
+					} else if (tempAttribute.name = "tileheight") {
+						console.log("4");
+					}
+				}
 			} else if (tempNode.nodeName == "layer") {
-				console.log("gum");
+				var attributesLength = tempNode.attributes.length;
+				for (var j = 0; j < attributesLength; j = j + 1) {
+					var tempAttribute = tempNode.attributes[j];
+
+					if (tempAttribute.name == "name") {
+						console.log("5");
+					} else if (tempAttribute.name == "width") {
+						console.log("6");
+					} else if (tempAttribute.name == "height") {
+						console.log("7");
+					}
+				}
 			}
 		}
+
+		this.mapLoaded = true;
 	}
 	xmlHR.onerror = function() {
 		console.log("Error while getting XML.");
