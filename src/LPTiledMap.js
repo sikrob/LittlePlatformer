@@ -10,6 +10,10 @@ var LPTiledMap = function() {
 	this.tileSetFirstGID = -1;
 	this.tileSetTileWidth = -1;
 	this.tileSetTileHeight = -1;
+
+	this.mapWidth = -1;
+	this.mapHeight = -1;
+	this.tileValues = new Array();
 }
 
 LPTiledMap.prototype.loadMap = function(mapName) {
@@ -24,31 +28,33 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 				var attributesLength = tempNode.attributes.length;
 				for (var j = 0; j < attributesLength; j = j + 1) {
 					var tempAttribute = tempNode.attributes[j];
-
 					if (tempAttribute.name == "name") {
 						console.log("1");
 					} else if (tempAttribute.name == "firstgid") {
 						console.log("2");
 					} else if (tempAttribute.name == "tilewidth") {
-						console.log("3");
+						this.tileSetTileWidth = tempAttribute.value;
 					} else if (tempAttribute.name = "tileheight") {
-						console.log("4");
+						this.tileSetTileHeight = tempAttribute.value;
 					}
 				}
+
 			} else if (tempNode.nodeName == "layer") {
 				var attributesLength = tempNode.attributes.length;
 				for (var j = 0; j < attributesLength; j = j + 1) {
 					var tempAttribute = tempNode.attributes[j];
-
 					if (tempAttribute.name == "name") {
 						console.log("5");
 					} else if (tempAttribute.name == "width") {
-						console.log("6");
+						this.mapWidth = tempAttribute.value;
 					} else if (tempAttribute.name == "height") {
-						console.log("7");
+						this.mapHeight = tempAttribute.value;
 					}
 				}
+
+				// now loop to create array with info for map.
 			}
+
 		}
 
 		this.mapLoaded = true;
