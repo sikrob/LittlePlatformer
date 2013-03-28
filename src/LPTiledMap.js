@@ -13,7 +13,7 @@ var LPTiledMap = function() {
 
 	this.mapWidth = -1;
 	this.mapHeight = -1;
-	this.tileValues = new Array();
+	this.tileValues = new Array(10);
 }
 
 LPTiledMap.prototype.loadMap = function(mapName) {
@@ -38,13 +38,12 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 						this.tileSetTileHeight = tempAttribute.value;
 					}
 				}
-
 			} else if (tempNode.nodeName == "layer") {
 				var attributesLength = tempNode.attributes.length;
 				for (var j = 0; j < attributesLength; j = j + 1) {
 					var tempAttribute = tempNode.attributes[j];
 					if (tempAttribute.name == "name") {
-						console.log("5");
+						console.log("tA.name = " + tempAttribute.name);
 					} else if (tempAttribute.name == "width") {
 						this.mapWidth = tempAttribute.value;
 					} else if (tempAttribute.name == "height") {
@@ -52,7 +51,23 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 					}
 				}
 
+				if (!this.tileValues) {
+					this.tileValues = new Array(10);
+					this.tileValues[i] = new Array(this.mapWidth * this.mapHeight); // multidimensional magic
+				}
 				// now loop to create array with info for map.
+				var layerLength = tempNode.childNodes.length;
+				for (var j = 0; j < layerLength; j = j + 1) {
+					var tempDataNode = tempNode.childNodes[j];
+					console.log("line 65"); // getting closer! woo hoo!
+					if (tempDataNode.name == "data") {
+						console.log("line 67");
+						var dataLength = tempDataNode.childNodes.length;
+						for (var k = 0; k < dataLength; k = k +1) {
+							console.log(tempDataNode.childNodes[k].name);
+						}
+					}
+				}
 			}
 
 		}
