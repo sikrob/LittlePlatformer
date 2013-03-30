@@ -29,9 +29,9 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 				for (var j = 0; j < attributesLength; j++) {
 					var tempAttribute = tempNode.attributes[j];
 					if (tempAttribute.name == "name") {
-						console.log("1");
+//						console.log("1");
 					} else if (tempAttribute.name == "firstgid") {
-						console.log("2");
+//						console.log("2");
 					} else if (tempAttribute.name == "tilewidth") {
 						this.tileSetTileWidth = tempAttribute.value;
 					} else if (tempAttribute.name = "tileheight") {
@@ -43,7 +43,7 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 				for (var j = 0; j < attributesLength; j++) {
 					var tempAttribute = tempNode.attributes[j];
 					if (tempAttribute.name == "name") {
-						console.log("tA.name = " + tempAttribute.name);
+//						console.log("tA.name = " + tempAttribute.name);
 					} else if (tempAttribute.name == "width") {
 						this.mapWidth = tempAttribute.value;
 					} else if (tempAttribute.name == "height") {
@@ -67,8 +67,7 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 								var tempTileNode = tempDataNode.childNodes[k];
 								var tempTileNodeAttibuteLength = tempTileNode.attributes.length;
 								for (var l = 0; l < tempTileNodeAttibuteLength; l++) {
-									console.log("gid:" + tempTileNode.attributes[l].value);
-									this.tileValues[i][l] = tempTileNode.attributes[l].value;
+									this.tileValues[i][k] = tempTileNode.attributes[l].value;
 								}
 							}
 						}
@@ -76,16 +75,20 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 				}
 			}
 
+/*
+// quick debug seciton, saved for now, delete later
 			if (this.tileValues) {
 				for (var i = 0; i < this.tileValues.length; i++) {
-					//for (var j = 0; j < this.tileValues[i].length; j++) {
-					//	if (this.tileValues[i][j]) {
-					//		console.log("m:" + this.tileValues[i][j]);
-					//	}
-					//}
+					if (this.tileValues[i]) {
+						for (var j = 0; j < this.tileValues[i].length; j++) {
+							if (this.tileValues[i][j]) {
+								console.log("m:" + this.tileValues[i][j]);
+							}
+						}
+					}
 				}
 			}
-
+*/
 
 		}
 
@@ -94,9 +97,14 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 	xmlHR.onerror = function() {
 		console.log("Error while getting XML.");
 	}
-	xmlHR.open("GET", "res/mapXML/test.xml"); // sanitized mapName goes here.
+	xmlHR.open("GET", "res/mapXML/0.xml"); // sanitized mapName goes here.
 	xmlHR.responseType = "document";
 	xmlHR.send();
 
 	this.mapName = mapName;
+}
+
+LPTiledMap.prototype.renderMap = function(canvasContext) {
+	// should we do this here? How do we control what portion of the map is rendered in the future?
+	// We have all the data to draw it else where…
 }
