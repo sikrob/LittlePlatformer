@@ -2,7 +2,7 @@
 // A class for loading and containing map data from TiledMaps. We will look for certain specific attributes by default,
 // however, so this may not be a great class since it won't be perfectly re-applicable for some projects.
 
-var LPTiledMap = function() {
+function LPTiledMap() {
 	this.mapName = "";
 	this.mapLoaded = false;
 
@@ -13,12 +13,16 @@ var LPTiledMap = function() {
 
 	this.mapWidth = -1;
 	this.mapHeight = -1;
-	this.tileValues = new Array(10); // why doesn't this work?
-}
+	this.tileValues = new Array(10);
+};
 
 LPTiledMap.prototype.loadMap = function(mapName) {
 	var xmlHR = new XMLHttpRequest();
-	xmlHR.onload = function() {
+	if (!xmlHR.responseXML) {
+		console.log("Response empty prior to request.");
+	}
+
+/*	xmlHR.onload = function() {
 		var rootChildNodesLength = xmlHR.responseXML.documentElement.childNodes.length;
 
 		for (var i = 0; i < rootChildNodesLength; i++) {
@@ -74,37 +78,73 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 					}
 				}
 			}
-
-/*
-// quick debug seciton, saved for now, delete later
-			if (this.tileValues) {
-				for (var i = 0; i < this.tileValues.length; i++) {
-					if (this.tileValues[i]) {
-						for (var j = 0; j < this.tileValues[i].length; j++) {
-							if (this.tileValues[i][j]) {
-								console.log("m:" + this.tileValues[i][j]);
-							}
-						}
-					}
-				}
-			}
-*/
-
 		}
 
 		this.mapLoaded = true;
-	}
+		console.log("onload:"+this.mapLoaded);
+	}*/
 	xmlHR.onerror = function() {
 		console.log("Error while getting XML.");
 	}
-	xmlHR.open("GET", "res/mapXML/0.xml"); // sanitized mapName goes here.
-	xmlHR.responseType = "document";
-	xmlHR.send();
 
+	if (this.mapLoaded == false) {
+		xmlHR.open("GET", "res/mapXML/0.xml", true); // sanitized mapName goes here.
+		xmlHR.responseType = "document";
+		xmlHR.send();
+
+//		var xmlDoc = xmlHR.responseXML;
+		console.log("moooo");
+		this.mapLoaded = true;
+	}
+
+	// quick debug seciton, saved for now, delete later
+	if (this.tileValues) {
+		for (var i = 0; i < this.tileValues.length; i++) {
+			if (this.tileValues[i]) {
+				for (var j = 0; j < this.tileValues[i].length; j++) {
+					if (this.tileValues[i][j]) {
+						console.log("m:" + this.tileValues[i][j]);
+					}
+				}
+			}
+		}
+	}
+
+	
+
+	console.log("!onload:"+this.mapLoaded);
 	this.mapName = mapName;
-}
+};
 
 LPTiledMap.prototype.renderMap = function(canvasContext) {
 	// should we do this here? How do we control what portion of the map is rendered in the future?
 	// We have all the data to draw it else where…
-}
+
+	var old = canvasContext.fillStyle;
+	canvasContext.fillStyle = "#000"
+	canvasContext.fillRect(200,100,400,400);
+	canvasContext.fillStyle = old;
+
+	if (this.tileValues) { // Only the most basic check here. Live fast, die young.
+		for (var i = 0; i < this.tileValues.length; i++) {
+
+			if (this.tileValues[i]) {
+
+				console.log("2");
+
+				for (var j= 0; j < this.tileValues[i].length; j++) {
+					// draw tv[i][j] as a rectangle for now.`
+					if (this.tileValues[i][j] == 0) {
+						console.log("3");
+						canvasContext.fillStyle = "#000";
+					} else {
+						console.log("4");
+						canvasContext.fillStyle = "#999";
+					}
+					console.log("5");
+					canvasContext.fillRect((i-(i/this.mapWidth)*this.mapWidth)*32,(i/this.mapWidth)*32,32,32);
+				}
+			}
+		}
+	}
+};

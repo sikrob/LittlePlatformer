@@ -26,5 +26,7 @@ PlaystateClass.prototype.render = function (canvasContext) {
 
 	canvasContext.font = oldFont;
 
-	// this.tiledMap.renderMap(canvasContext);
+	if (this.tiled) {
+		this.tiledMap.renderMap(canvasContext);
+	}
 };
