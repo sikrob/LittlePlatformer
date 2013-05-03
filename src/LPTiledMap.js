@@ -83,7 +83,7 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 	}
 
 	if (this.mapLoaded == false) {
-		xmlHR.open("GET", "res/mapXML/testU.xml"); // sanitized mapName goes here.
+		xmlHR.open("GET", "res/mapXML/0.xml"); // sanitized mapName goes here.
 		xmlHR.responseType = "document";
 		xmlHR.myNewResponse = function(m) {
 			this.a = 10;
@@ -104,10 +104,12 @@ LPTiledMap.prototype.renderMap = function(canvasContext) {
 		for (var i = 0; i < this.tileValues.length; i++) {
 			if (this.tileValues[i]) {
 				// draw tv[i][j] as a rectangle for now.`
-				if (this.tileValues[i] == 1) {
-					canvasContext.fillStyle = "#000";
-				} else {
+				if (this.tileValues[i] == 2) {
 					canvasContext.fillStyle = "#FFF";
+				} else if (this.tileValues[i] > 2) {
+					canvasContext.fillStyle = "#999";
+				} else {
+					canvasContext.fillStyle = "#000";
 				}
 				canvasContext.fillRect((i%this.mapWidth)*32,(Math.floor(i/this.mapWidth))*32,32,32);
 			}
