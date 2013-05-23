@@ -12,10 +12,17 @@ function LPTiledMap() {
 
 	this.mapWidth = -1;
 	this.mapHeight = -1;
+	this.mapPXHeight = -1;
+	this.mapPXWidth = -1;
 	this.tileValues = new Array();
 };
 
 LPTiledMap.prototype.loadMap = function(mapName) {
+	if (this.mapName != mapName) {
+		this.mapLoaded = false;
+	}
+
+
 	var xmlHR = new XMLHttpRequest();
 
 	xmlHR.onload = function() {
@@ -43,9 +50,10 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 					if (tempAttribute.name == "name") { // do nothing
 					} else if (tempAttribute.name == "width") {
 						this.mapWidth = tempAttribute.value;
-
+						this.mapPXWidth = this.mapWidth * this.tileSetTileWidth;
 					} else if (tempAttribute.name == "height") {
 						this.mapHeight = tempAttribute.value;
+						this.mapPXHeight = this.mapHeight * this.tileSetTileHeight;
 					}
 				}
 
@@ -78,12 +86,17 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 
 	xmlHR.returnStuff = function(lptm) {
 		lptm.mapWidth = this.mapWidth;
+		lptm.mapPXWidth = this.mapPXWidth;
 		lptm.mapHeight = this.mapHeight;
+		lptm.mapPXHeight = this.mapPXHeight;
 		lptm.tileValues = this.tileValues;
+		lptm.mapLoaded = this.mapLoaded;
 	}
 
 	if (this.mapLoaded == false) {
-		xmlHR.open("GET", "res/mapXML/0.xml"); // sanitized mapName goes here.
+
+		var mapToLoad = "res/mapXML/" + mapName + ".xml"; // This is pretty much the lease safe way to do this.
+		xmlHR.open("GET", mapToLoad); // sanitized mapName goes here.
 		xmlHR.responseType = "document";
 		xmlHR.myNewResponse = function(m) {
 			this.a = 10;
@@ -97,7 +110,7 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 	this.mapName = mapName;
 };
 
-LPTiledMap.prototype.renderMap = function(canvasContext) {
+LPTiledMap.prototype.renderMap = function(canvasContext, mapOffsetX, mapOffsetY) {
 	// should we do this here? How do we control what portion of the map is rendered in the future?
 	// We have all the data to draw it else where…
 	if (this.tileValues.length > 0) { // Only the most basic check here. Live fast, die young.
@@ -111,7 +124,7 @@ LPTiledMap.prototype.renderMap = function(canvasContext) {
 				} else {
 					canvasContext.fillStyle = "#000";
 				}
-				canvasContext.fillRect((i%this.mapWidth)*32,(Math.floor(i/this.mapWidth))*32,32,32);
+				canvasContext.fillRect((i%this.mapWidth)*32+mapOffsetX,(Math.floor(i/this.mapWidth))*32+mapOffsetY,32,32);
 			}
 		}
 	}
