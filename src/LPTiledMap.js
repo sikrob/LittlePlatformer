@@ -119,7 +119,7 @@ LPTiledMap.prototype.renderMap = function(canvasContext, mapOffsetX, mapOffsetY)
 				// draw tv[i][j] as a rectangle for now.`
 				if (this.tileValues[i] == 2) {
 					canvasContext.fillStyle = "#FFF";
-				} else if (this.tileValues[i] > 2) {
+				} else if (this.tileValues[i] > 2) { // either start or stop square
 					canvasContext.fillStyle = "#999";
 				} else {
 					canvasContext.fillStyle = "#000";
@@ -129,3 +129,7 @@ LPTiledMap.prototype.renderMap = function(canvasContext, mapOffsetX, mapOffsetY)
 		}
 	}
 };
+
+LPTiledMap.prototype.getTileValue = function(xCoord, yCoord) {
+	// need to get whther it is 
+}

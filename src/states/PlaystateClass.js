@@ -4,32 +4,56 @@ PlaystateClass.prototype = new GamestateClass();
 PlaystateClass.prototype.constructor = PlaystateClass;
 function PlaystateClass() {
 	this.stateName = "play";
+
 	this.tiled = false;
 	this.tiledMap = new LPTiledMap();
-	this.finalizedMap = false;
 	this.mapOffsetX = -1;
 	this.mapOffsetY = -1;
+	this.initialized = false;
+
+	this.userInput = "";
+	// break this out as well…
+	this.PCposition = -1;
+	this.tempPCposition = -1;
 };
 
 PlaystateClass.prototype.update = function (keysDown) {
-	if (!this.tiled) {
-		this.tiledMap.loadMap("0");
-		this.tiled = true;
+	if (!this.initialized) {
+		if (!this.tiled) {
+			this.tiledMap.loadMap("0");
+			this.tiled = true;
+		}
+
+		if (this.tiled && this.tiledMap.mapLoaded) {
+			if (this.tiledMap.mapPXHeight < 600) {
+				this.mapOffsetY = (600 - this.tiledMap.mapPXHeight)/2;
+			}
+			if (this.tiledMap.mapPXWidth < 800) {
+				this.mapOffsetX = (800 - this.tiledMap.mapPXWidth)/2;
+			}
+
+			this.initialized = true;
+		}
 	}
 
-	if (this.tiled && this.tiledMap.mapLoaded) {
-		if (this.tiledMap.mapPXHeight < 600) {
-			this.mapOffsetY = (600 - this.tiledMap.mapPXHeight)/2;
-		}
-		if (this.tiledMap.mapPXWidth < 800) {
-			this.mapOffsetX = (800 - this.tiledMap.mapPXWidth)/2;
-		}
-		this.finalizedMap = true; // find a better way to handle offsets in the future, right now we expect NO MAP SCROLL.
-	}
+	// grab user input
+	if (getConstant("A") in keysDown || getConstant("LEFT") in keysDown) {
 
-	// is the level loaded?
-		// including loading: XML, player, graphics, and hopefully sound eventually.
-	// if yes, what all do we track? Right now just the player coordinates and the map coordinates, I think.
+	}
+	if (getConstant("W") in keysDown || getConstant("UP") in keysDown) {
+
+	}
+	if (getConstant("D") in keysDown || getConstant("RIGHT") in keysDown) {
+
+	}
+	// temp new osition
+	// get tilestate of temppos
+	// if tilestate = nogo
+	// 	put on edge of tile
+	// if tilestate = end
+	//  end
+	// else
+	//  pos=newpos
 };
 
 PlaystateClass.prototype.render = function (canvasContext) {
@@ -40,7 +64,8 @@ PlaystateClass.prototype.render = function (canvasContext) {
 
 	canvasContext.font = oldFont;
 
-	if (this.tiled) {
+	if (this.initialized) {
 		this.tiledMap.renderMap(canvasContext, this.mapOffsetX, this.mapOffsetY);
+
 	}
 };
