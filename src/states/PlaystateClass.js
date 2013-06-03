@@ -12,9 +12,8 @@ function PlaystateClass() {
 	this.initialized = false;
 
 	this.userInput = "";
-	// break this out as well…
-	this.PCposition = -1;
-	this.tempPCposition = -1;
+
+	this.player = new LPPlayerCharacter();
 };
 
 PlaystateClass.prototype.update = function (keysDown) {
@@ -36,9 +35,9 @@ PlaystateClass.prototype.update = function (keysDown) {
 		}
 	}
 
-	// grab user input
+	// grab user input 
 	if (getConstant("A") in keysDown || getConstant("LEFT") in keysDown) {
-
+		
 	}
 	if (getConstant("W") in keysDown || getConstant("UP") in keysDown) {
 
@@ -47,6 +46,7 @@ PlaystateClass.prototype.update = function (keysDown) {
 
 	}
 	// temp new osition
+	
 	// get tilestate of temppos
 	// if tilestate = nogo
 	// 	put on edge of tile
