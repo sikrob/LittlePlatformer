@@ -9,6 +9,7 @@ function PlaystateClass() {
 	this.tiledMap = new LPTiledMap();
 	this.mapOffsetX = -1;
 	this.mapOffsetY = -1;
+	this.mapOffsetSet = false;
 	this.initialized = false;
 
 	this.userInput = "";
@@ -31,6 +32,11 @@ PlaystateClass.prototype.update = function (keysDown) {
 				this.mapOffsetX = (800 - this.tiledMap.mapPXWidth)/2;
 			}
 
+			this.mapOffsetSet = true;
+		}
+
+		if (this.mapOffsetSet) {
+			this.player.setPosition(this.tiledMap.startX + this.mapOffsetX, this.tiledMap.startY + this.mapOffsetY - 32);
 			this.initialized = true;
 		}
 	}
@@ -66,6 +72,6 @@ PlaystateClass.prototype.render = function (canvasContext) {
 
 	if (this.initialized) {
 		this.tiledMap.renderMap(canvasContext, this.mapOffsetX, this.mapOffsetY);
-
+		this.player.render(canvasContext);
 	}
 };

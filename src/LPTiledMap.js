@@ -15,6 +15,11 @@ function LPTiledMap() {
 	this.mapPXHeight = -1;
 	this.mapPXWidth = -1;
 	this.tileValues = new Array();
+
+	this.startX = -1;
+	this.startY = -1;
+	this.endX = -1;
+	this.endY = -1;
 };
 
 LPTiledMap.prototype.loadMap = function(mapName) {
@@ -59,6 +64,9 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 
 				this.tileValues = new Array(this.mapWidth * this.mapHeight); // 1 layer map only right now
 
+				this.startTile = -1;
+				this.endTile = -1;
+
 				// now loop to create array with info for map.
 				var layerLength = tempNode.childNodes.length;
 				for (var j = 0; j < layerLength; j++) {
@@ -69,11 +77,23 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 						for (var k = 0; k < dataLength; k++) {
 							if (tempDataNode.childNodes[k].nodeName == "tile") {
 								var tempTileNode = tempDataNode.childNodes[k];
+
+								if (tempTileNode.attributes[0].value == 3) {
+									this.startTile = tileValuesCounter;
+								} else if (tempTileNode.attributes[0].value == 4) {
+									this.endTile = tileValuesCounter;
+								}
+
 								this.tileValues[tileValuesCounter++] = tempTileNode.attributes[0].value;
 							}
 						}
 					}
 				}
+
+				this.startX = (this.startTile % this.mapWidth) * 32
+				this.startY = (Math.floor(this.startTile / this.mapWidth)) * 32
+				this.endX = (this.endTile % this.mapWidth) * 32
+				this.endY = (Math.floor(this.endTile / this.mapWidth)) * 32
 			}
 		}
 
@@ -91,6 +111,10 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 		lptm.mapPXHeight = this.mapPXHeight;
 		lptm.tileValues = this.tileValues;
 		lptm.mapLoaded = this.mapLoaded;
+		lptm.startX = this.startX;
+		lptm.startY = this.startY;
+		lptm.endX = this.endX;
+		lptm.endY = this.endY;
 	}
 
 	if (this.mapLoaded == false) {

@@ -9,8 +9,9 @@ function LPPlayerCharacter() {
 LPPlayerCharacter.prototype.setPosition = function(xNew, yNew) {
 	this.xPosition = xNew;
 	this.yPosition = yNew;
-}
+};
 
 LPPlayerCharacter.prototype.render = function(canvasContext) {
-
-}
+	canvasContext.fillStyle = "#00F";
+	canvasContext.fillRect(this.xPosition, this.yPosition, 32, 32);
+};
