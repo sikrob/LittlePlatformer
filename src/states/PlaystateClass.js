@@ -15,6 +15,10 @@ function PlaystateClass() {
 	this.userInput = "";
 
 	this.player = new LPPlayerCharacter();
+	this.playerVelocityXMod = 1;
+	this.inertiaMod = 5;
+	this.playerVelocityJumpMod = 10;
+	this.gravityVelocityMod = 5;
 };
 
 PlaystateClass.prototype.update = function (keysDown) {
@@ -41,15 +45,23 @@ PlaystateClass.prototype.update = function (keysDown) {
 		}
 	}
 
+	// VELOCITY
 	// grab user input 
+	var tempXVelocity = this.player.xVelocity;
+	var tempYVelocity = this.player.yVelocity;
+
 	if (getConstant("A") in keysDown || getConstant("LEFT") in keysDown) {
-		
+		tempXVelocity -= this.playerVelocityXMod;
 	}
 	if (getConstant("W") in keysDown || getConstant("UP") in keysDown) {
-
+		//tempYVelocity 
 	}
 	if (getConstant("D") in keysDown || getConstant("RIGHT") in keysDown) {
+		tempXVelocity += this.playerVelocityXMod;
+	}
 
+	if (!(getConstant("D") in keysDown) && !(getConstant("RIGHT") in keysDown) && !(getConstant("A") in keysDown) && !(getConstant("LEFT") in keysDown)) {
+		tempXVelocity = 0;
 	}
 	// temp new osition
 	
@@ -60,6 +72,10 @@ PlaystateClass.prototype.update = function (keysDown) {
 	//  end
 	// else
 	//  pos=newpos
+	this.player.xVelocity = tempXVelocity;
+
+	// POSITION
+	this.player.setPosition(this.player.xPosition + this.player.xVelocity, this.player.yPosition);
 };
 
 PlaystateClass.prototype.render = function (canvasContext) {
