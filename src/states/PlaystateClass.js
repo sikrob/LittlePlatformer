@@ -15,10 +15,10 @@ function PlaystateClass() {
 	this.userInput = "";
 
 	this.player = new LPPlayerCharacter();
-	this.playerVelocityXMod = 1;
+	this.playerVelocityXMod = .5;
 	this.inertiaMod = 5;
-	this.playerVelocityJumpMod = 10;
-	this.gravityVelocityMod = 5;
+	this.playerVelocityJumpMod = 4;
+	this.gravityVelocityMod = 1;
 };
 
 PlaystateClass.prototype.update = function (keysDown) {
@@ -52,20 +52,34 @@ PlaystateClass.prototype.update = function (keysDown) {
 
 	if (getConstant("A") in keysDown || getConstant("LEFT") in keysDown) {
 		tempXVelocity -= this.playerVelocityXMod;
+		if (tempXVelocity < -this.player.xMaxVelocity) {
+			tempXVelocity = -this.player.xMaxVelocity;
+		}
 	}
 	if (getConstant("W") in keysDown || getConstant("UP") in keysDown) {
 		//tempYVelocity 
+		if (!this.player.jumping) {
+			tempYVelocity = -this.playerVelocityJumpMod;
+			this.player.jumping = true;
+		}
 	}
 	if (getConstant("D") in keysDown || getConstant("RIGHT") in keysDown) {
 		tempXVelocity += this.playerVelocityXMod;
+		if (tempXVelocity > this.player.xMaxVelocity) {
+			tempXVelocity = this.player.xMaxVelocity;
+		}
 	}
 
 	if (!(getConstant("D") in keysDown) && !(getConstant("RIGHT") in keysDown) && !(getConstant("A") in keysDown) && !(getConstant("LEFT") in keysDown)) {
 		tempXVelocity = 0;
 	}
-	// temp new osition
-	
+
+	// temp new position	
 	// get tilestate of temppos
+	// need for four points of new char state: x, y, x+32, y+32
+	// get tile at (point): returns a "TILE" perhaps; this function will loop through the tiles and judge where they are on screen. Slow but quick to code.
+	//
+
 	// if tilestate = nogo
 	// 	put on edge of tile
 	// if tilestate = end
@@ -74,8 +88,10 @@ PlaystateClass.prototype.update = function (keysDown) {
 	//  pos=newpos
 	this.player.xVelocity = tempXVelocity;
 
+	this.player.yVelocity = tempYVelocity;
+
 	// POSITION
-	this.player.setPosition(this.player.xPosition + this.player.xVelocity, this.player.yPosition);
+	this.player.setPosition(this.player.xPosition + this.player.xVelocity, this.player.yPosition + this.player.yVelocity);
 };
 
 PlaystateClass.prototype.render = function (canvasContext) {
