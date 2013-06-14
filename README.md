@@ -12,7 +12,7 @@ manageable.
 The main goal for this project is to create a platformer with the following criteria:
 * State Based Game
 * Read and parse XML data for maps (Tiled maps)
-* Use graphics for maps, player, environment (monsters?)
+* Use ~~graphics for maps, player, environment (monsters?)~~ HTML5 canvas shapes for graphics
 * Use sound
 
 The goal of this game is really to create the classes and such that I need for the next game.
