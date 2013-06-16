@@ -154,7 +154,29 @@ LPTiledMap.prototype.renderMap = function(canvasContext, mapOffsetX, mapOffsetY)
 	}
 };
 
-LPTiledMap.prototype.getTileValue = function(xCoord, yCoord) {
-	// need to get whther it is possible for a character to enter
-	
+LPTiledMap.prototype.getTileValue = function(xCoord, yCoord, mapOffsetX, mapOffsetY, pass) {
+	// need to get whether it is possible for a character to enter
+	xCoord = Math.floor(xCoord);
+	yCoord = Math.floor(yCoord);
+	var xMap = 0;
+	var yMap = 0;
+	for (var i = 0; i < this.tileValues.length; i++) {
+		if (i%this.mapWidth == (xCoord-mapOffsetX)/32) {
+			xMap = i;
+			break;
+		}
+	}
+	for (var i = 0; i < this.tileValues.length; i++) {
+		if (Math.floor(i/this.mapWidth) == (yCoord-mapOffsetY)/32) {
+			yMap = i;
+			break;
+		}
+	}
+
+	var i = xMap+this.mapWidth*yMap;
+
+	pass = this.tileValues[i] == 2;
+
+	console.log(yMap);
+
 }

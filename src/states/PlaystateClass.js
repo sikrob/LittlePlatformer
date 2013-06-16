@@ -90,8 +90,8 @@ PlaystateClass.prototype.update = function (keysDown) {
 	//
 	var tempXPos = this.player.xPosition + tempXVelocity;
 	var tempYPos = this.player.yPosition + tempYVelocity;
-	var xCheck;
-	var yCheck;
+	var xCheck = this.player.xPosition;
+	var yCheck = this.player.yPosition;
 	if (tempXVelocity > 0) {
 		xCheck = tempXPos+32;
 
@@ -103,8 +103,12 @@ PlaystateClass.prototype.update = function (keysDown) {
 	} else if (tempYVelocity < 0) {
 		yCheck = tempYPos;
 	}
-	this.tiledMap.getTileValue(xCheck,yCheck);
-	
+	var noCollision = false;
+	this.tiledMap.getTileValue(xCheck,yCheck,this.mapOffsetX,this.mapOffsetY,noCollision);
+
+	if (noCollision) {
+		this.player.setPosition(tempXPos, tempYPos);
+	}
 
 	// if tilestate = nogo
 	// 	put on edge of tile
@@ -114,7 +118,6 @@ PlaystateClass.prototype.update = function (keysDown) {
 	//  pos=newpos
 
 	// POSITION
-	this.player.setPosition(this.player.xPosition + this.player.xVelocity, this.player.yPosition + this.player.yVelocity);
 };
 
 PlaystateClass.prototype.render = function (canvasContext) {
