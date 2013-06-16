@@ -18,7 +18,8 @@ function PlaystateClass() {
 	this.playerVelocityXMod = .5;
 	this.inertiaMod = 5;
 	this.playerVelocityJumpMod = 4;
-	this.gravityVelocityMod = 1;
+	this.gravityVelocityMod = -.05;
+	this.terminalVelocity = -6;
 };
 
 PlaystateClass.prototype.update = function (keysDown) {
@@ -74,11 +75,36 @@ PlaystateClass.prototype.update = function (keysDown) {
 		tempXVelocity = 0;
 	}
 
+	if (tempYVelocity > this.terminalVelocity) {
+		tempYVelocity = this.terminalVelocity;
+	} else if (tempYVelocity < this.terminalVelocity){
+		tempYVelocity -= this.gravityVelocityMod;
+	}
+	this.player.xVelocity = tempXVelocity;
+	this.player.yVelocity = tempYVelocity;
+
 	// temp new position	
 	// get tilestate of temppos
 	// need for four points of new char state: x, y, x+32, y+32
 	// get tile at (point): returns a "TILE" perhaps; this function will loop through the tiles and judge where they are on screen. Slow but quick to code.
 	//
+	var tempXPos = this.player.xPosition + tempXVelocity;
+	var tempYPos = this.player.yPosition + tempYVelocity;
+	var xCheck;
+	var yCheck;
+	if (tempXVelocity > 0) {
+		xCheck = tempXPos+32;
+
+	} else if (tempXVelocity < 0) {
+		xCheck = tempXPos;
+	}
+	if (tempYVelocity > 0) {
+		yCheck = tempYPos+32;
+	} else if (tempYVelocity < 0) {
+		yCheck = tempYPos;
+	}
+	this.tiledMap.getTileValue(xCheck,yCheck);
+	
 
 	// if tilestate = nogo
 	// 	put on edge of tile
@@ -86,9 +112,6 @@ PlaystateClass.prototype.update = function (keysDown) {
 	//  end
 	// else
 	//  pos=newpos
-	this.player.xVelocity = tempXVelocity;
-
-	this.player.yVelocity = tempYVelocity;
 
 	// POSITION
 	this.player.setPosition(this.player.xPosition + this.player.xVelocity, this.player.yPosition + this.player.yVelocity);

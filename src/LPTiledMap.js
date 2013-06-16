@@ -155,5 +155,6 @@ LPTiledMap.prototype.renderMap = function(canvasContext, mapOffsetX, mapOffsetY)
 };
 
 LPTiledMap.prototype.getTileValue = function(xCoord, yCoord) {
-	// need to get whther it is 
+	// need to get whther it is possible for a character to enter
+	
 }
