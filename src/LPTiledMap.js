@@ -154,6 +154,41 @@ LPTiledMap.prototype.renderMap = function(canvasContext, mapOffsetX, mapOffsetY)
 	}
 };
 
+LPTiledMap.prototype.setPlayerPosition = function(oldX, oldY, newX, newY) { // write over the newX and newY
+	var xPass, yPass;
+	xPass = false;
+	yPass = false;
+
+	for(var i = 0; i < this.tileValues.length; i++) {
+		// i/width = row, i%width = column
+		if (newX >= (i%width)*32 && newX < (i%width)*32+32) {
+			// column for first check
+		}
+		if (newY >= (i/width)*32 && newY < (i/width)*32+32) {
+			// row for first check
+		}
+	}
+	// other checks = fX+32,fY; fX,fY+32; fX+32,fY+32
+
+	/*
+		0 1 2 3 4 5 6 7 8 9
+
+		width*row + column = i
+
+		0 1 2 3 4
+		5 6 7 8 9
+
+		if oldX == newX and oldY == newY, skip everything; we'll have already checked this spot
+
+		if oldX == newX and oldY != newY, only need check 3 and/or 4
+
+		if oldX != newX and oldY == newY, only need check 1 and/or 2
+
+		else need to check all
+
+	*/
+}
+
 LPTiledMap.prototype.getTileValue = function(xCoord, yCoord, mapOffsetX, mapOffsetY, pass) {
 	// need to get whether it is possible for a character to enter
 	xCoord = Math.floor(xCoord);
@@ -177,6 +212,6 @@ LPTiledMap.prototype.getTileValue = function(xCoord, yCoord, mapOffsetX, mapOffs
 
 	pass = this.tileValues[i] == 2;
 
-	console.log(yMap);
+	console.log(pass);
 
 }
