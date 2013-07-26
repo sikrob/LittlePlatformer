@@ -15,7 +15,7 @@ function PlaystateClass() {
 	this.userInput = "";
 
 	this.player = new LPPlayerCharacter();
-	this.playerVelocityXMod = .5;
+	this.playerVelocityXMod = 2;//.5;
 	this.inertiaMod = 5;
 	this.playerVelocityJumpMod = 4;
 	this.gravityVelocityMod = -.05;
@@ -57,13 +57,6 @@ PlaystateClass.prototype.update = function (keysDown) {
 			tempXVelocity = -this.player.xMaxVelocity;
 		}
 	}
-	if (getConstant("W") in keysDown || getConstant("UP") in keysDown) {
-		//tempYVelocity 
-		if (!this.player.jumping) {
-			tempYVelocity = -this.playerVelocityJumpMod;
-			this.player.jumping = true;
-		}
-	}
 	if (getConstant("D") in keysDown || getConstant("RIGHT") in keysDown) {
 		tempXVelocity += this.playerVelocityXMod;
 		if (tempXVelocity > this.player.xMaxVelocity) {
@@ -71,15 +64,28 @@ PlaystateClass.prototype.update = function (keysDown) {
 		}
 	}
 
+	if (getConstant("W") in keysDown || getConstant("UP") in keysDown) {
+		//tempYVelocity 
+		if (!this.player.jumping) {
+			tempYVelocity = -this.playerVelocityJumpMod;
+			this.player.jumping = true;
+		}
+	}
+
+	// no motion on S/DOWN
+
 	if (!(getConstant("D") in keysDown) && !(getConstant("RIGHT") in keysDown) && !(getConstant("A") in keysDown) && !(getConstant("LEFT") in keysDown)) {
 		tempXVelocity = 0;
 	}
 
+//	tempYVelocity += this.gravityVelocityMod;
 	if (tempYVelocity > this.terminalVelocity) {
 		tempYVelocity = this.terminalVelocity;
-	} else if (tempYVelocity < this.terminalVelocity){
-		tempYVelocity -= this.gravityVelocityMod;
 	}
+
+	var tempXPos = this.player.xPosition + tempXVelocity;
+	var tempYPos = this.player.yPosition;// + tempYVelocity;
+
 
 //	this.player.xVelocity = tempXVelocity;
 //	this.player.yVelocity = tempYVelocity;
@@ -90,8 +96,6 @@ PlaystateClass.prototype.update = function (keysDown) {
 	// get tile at (point): returns a "TILE" perhaps; this function will loop through the tiles and judge where they are on screen. Slow but quick to code.
 	//
 
-	var tempXPos = this.player.xPosition + tempXVelocity;
-	var tempYPos = this.player.yPosition + tempYVelocity;
 //	var xCheck = this.player.xPosition;
 //	var yCheck = this.player.yPosition;
 /*	if (tempXVelocity > 0) {
@@ -106,8 +110,14 @@ PlaystateClass.prototype.update = function (keysDown) {
 		yCheck = tempYPos;
 	} */
 
-	var noCollision = false;
+
+
+	var noCollision = true;
 	
+
+	if (this.player.yPosition == tempYPos) {
+		this.player.jumping = false;
+	}
 
 	if (noCollision) {
 		this.player.setPosition(tempXPos, tempYPos);
