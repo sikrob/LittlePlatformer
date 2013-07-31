@@ -9,6 +9,9 @@ function LPPlayerCharacter() {
 	this.jumping = false;
 
 	this.xMaxVelocity = 5;
+
+//	this.xNew = -1;
+//	this.yNew = -1;
 };
 
 LPPlayerCharacter.prototype.setPosition = function(xNew, yNew) {

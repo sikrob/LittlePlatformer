@@ -15,7 +15,7 @@ function PlaystateClass() {
 	this.userInput = "";
 
 	this.player = new LPPlayerCharacter();
-	this.playerVelocityXMod = 2;//.5;
+	this.playerVelocityXMod = 2;//.1;
 	this.inertiaMod = 5;
 	this.playerVelocityJumpMod = 4;
 	this.gravityVelocityMod = -.05;
@@ -86,9 +86,7 @@ PlaystateClass.prototype.update = function (keysDown) {
 	var tempXPos = this.player.xPosition + tempXVelocity;
 	var tempYPos = this.player.yPosition;// + tempYVelocity;
 
-
-//	this.player.xVelocity = tempXVelocity;
-//	this.player.yVelocity = tempYVelocity;
+	this.tiledMap.resolveCollision(this.player.xPosition, this.player.yPosition, tempXPos, tempYPos, this.mapOffsetX, this.mapOffsetY);
 
 	// temp new position	
 	// get tilestate of temppos
