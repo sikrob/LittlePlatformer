@@ -253,7 +253,17 @@ LPTiledMap.prototype.getTileValue = function(xCoord, yCoord, mapOffsetX, mapOffs
 	console.log(pass);
 }
 
-LPTiledMap.prototype.resolveCollision = function(xOld, yOld, xNew, yNew, mapOffsetX, mapOffsetY) {
+LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffsetY) {
+	var xOld;
+	var yOld;
+	var xNew;
+	var yNew;
+
+	xOld = position.xCurrent;
+	yOld = position.yCurrent;
+	xNew = position.xNew;
+	yNew = position.yNew;
+
 	var xCheck = 0;
 	var yCheck = 0;
 	var xMap = 0;
@@ -271,20 +281,20 @@ LPTiledMap.prototype.resolveCollision = function(xOld, yOld, xNew, yNew, mapOffs
 	if (yOld = yNew) {
 		// n/a
 	} else if (yOld < yNew) {
-		yCheck =  yNew + 32 // Get buttom corner
+		yCheck =  yNew + 32 // Get bottom corner
 	} else {
 		yCheck = yNew; // Use top corner
 	}
 
 	// xCheck w/ yNew and yNew+32 for both top and bottom of side we need to check
 	for (var i = 0; i < this.tileValues.length; i++) {
-		if (i%this.mapWidth == (xCheck-mapOffsetX)/32) {
+		if (i%this.mapWidth == Math.floor((xCheck-mapOffsetX)/32)) {
 			xMap = i;
 			break;
 		}
 	}
 	for (var i = 0; i < this.tileValues.length; i++) {
-		if (Math.floor(i/this.mapWidth) == (yNew-mapOffsetY)/32) {
+		if (Math.floor(i/this.mapWidth) == Math.floor((yNew-mapOffsetY)/32)) {
 			yMap = i;
 			break;
 		}
@@ -294,13 +304,13 @@ LPTiledMap.prototype.resolveCollision = function(xOld, yOld, xNew, yNew, mapOffs
 	// +32 part
 	if (pass) {
 		for (var i = 0; i < this.tileValues.length; i++) {
-			if (i%this.mapWidth == (xCheck-mapOffsetX)/32) {
+			if (i%this.mapWidth == Math.floor((xCheck-mapOffsetX)/32)) {
 				xMap = i;
 				break;
 			}
 		}
 		for (var i = 0; i < this.tileValues.length; i++) {
-			if (Math.floor(i/this.mapWidth) == (yNew+32-mapOffsetY)/32) {
+			if (Math.floor(i/this.mapWidth) == Math.floor((yNew+31-mapOffsetY)/32)) {
 				yMap = i;
 				break;
 			}
@@ -309,7 +319,10 @@ LPTiledMap.prototype.resolveCollision = function(xOld, yOld, xNew, yNew, mapOffs
 		pass = this.tileValues[tileId] == 2;
 	}
 	if (!pass) {
-		//xNew = xOld; // quick test for POC
+		xNew = xOld; // quick test for POC
+		position.xNew = xOld;
+	} else {
+		position.xNew = xNew;
 	}
 }
 

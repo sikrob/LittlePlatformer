@@ -10,8 +10,7 @@ function LPPlayerCharacter() {
 
 	this.xMaxVelocity = 5;
 
-//	this.xNew = -1;
-//	this.yNew = -1;
+	this.position = new LPEntityPosition();
 };
 
 LPPlayerCharacter.prototype.setPosition = function(xNew, yNew) {

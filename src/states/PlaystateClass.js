@@ -86,8 +86,15 @@ PlaystateClass.prototype.update = function (keysDown) {
 	var tempXPos = this.player.xPosition + tempXVelocity;
 	var tempYPos = this.player.yPosition;// + tempYVelocity;
 
-	this.tiledMap.resolveCollision(this.player.xPosition, this.player.yPosition, tempXPos, tempYPos, this.mapOffsetX, this.mapOffsetY);
+	this.player.position.xNew = tempXPos;
+	this.player.position.yNew = tempYPos;
+	this.player.position.xCurrent = this.player.xPosition;
+	this.player.position.yCurrent = this.player.yPosition;
 
+	
+	this.tiledMap.resolveCollision(this.player.position, this.mapOffsetX, this.mapOffsetY);
+
+	
 	// temp new position	
 	// get tilestate of temppos
 	// need for four points of new char state: x, y, x+32, y+32
@@ -118,7 +125,8 @@ PlaystateClass.prototype.update = function (keysDown) {
 	}
 
 	if (noCollision) {
-		this.player.setPosition(tempXPos, tempYPos);
+//		this.player.setPosition(tempXPos, tempYPos);
+		this.player.setPosition(this.player.position.xNew, this.player.position.yNew);
 	}
 
 	// if tilestate = nogo
