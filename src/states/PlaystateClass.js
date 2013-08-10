@@ -46,8 +46,6 @@ PlaystateClass.prototype.update = function (keysDown) {
 		}
 	}
 
-	// VELOCITY
-	// grab user input 
 	var tempXVelocity = this.player.xVelocity;
 	var tempYVelocity = this.player.yVelocity;
 
@@ -94,29 +92,6 @@ PlaystateClass.prototype.update = function (keysDown) {
 	
 	this.tiledMap.resolveCollision(this.player.position, this.mapOffsetX, this.mapOffsetY);
 
-	
-	// temp new position	
-	// get tilestate of temppos
-	// need for four points of new char state: x, y, x+32, y+32
-	// get tile at (point): returns a "TILE" perhaps; this function will loop through the tiles and judge where they are on screen. Slow but quick to code.
-	//
-
-//	var xCheck = this.player.xPosition;
-//	var yCheck = this.player.yPosition;
-/*	if (tempXVelocity > 0) {
-		xCheck = tempXPos+32;
-
-	} else if (tempXVelocity < 0) {
-		xCheck = tempXPos;
-	}
-	if (tempYVelocity > 0) {
-		yCheck = tempYPos+32;
-	} else if (tempYVelocity < 0) {
-		yCheck = tempYPos;
-	} */
-
-
-
 	var noCollision = true;
 	
 
@@ -125,18 +100,8 @@ PlaystateClass.prototype.update = function (keysDown) {
 	}
 
 	if (noCollision) {
-//		this.player.setPosition(tempXPos, tempYPos);
 		this.player.setPosition(this.player.position.xNew, this.player.position.yNew);
 	}
-
-	// if tilestate = nogo
-	// 	put on edge of tile
-	// if tilestate = end
-	//  end
-	// else
-	//  pos=newpos
-
-	// POSITION
 };
 
 PlaystateClass.prototype.render = function (canvasContext) {

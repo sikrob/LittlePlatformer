@@ -25,5 +25,5 @@ LPPlayerCharacter.prototype.setVelocity = function(xNew, yNew) {
 
 LPPlayerCharacter.prototype.render = function(canvasContext) {
 	canvasContext.fillStyle = "#00F";
-	canvasContext.fillRect(this.xPosition, this.yPosition, 32, 32);
+	canvasContext.fillRect(this.position.xCurrent, this.position.yCurrent, 32, 32);
 };

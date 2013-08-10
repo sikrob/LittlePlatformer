@@ -154,79 +154,6 @@ LPTiledMap.prototype.renderMap = function(canvasContext, mapOffsetX, mapOffsetY)
 	}
 };
 
-LPTiledMap.prototype.setPlayerPosition = function(oldX, oldY, newX, newY, mapOffsetX, mapOffsetY) { // write over the newX and newY
-	if (oldX != newX || oldY != newY) {
-		var xPass, yPass;
-		xPass = false;
-		yPass = false;
-
-		var tileX, tileY;
-		tileX = -1;
-		tileY = -1;
-		var left, right, up, down;
-		left = false;
-		right = false;
-		up = false;
-		down = false;
-
-		for(var i = 0; i < this.tileValues.length; i++) {
-			// i/width = row, i%width = column
-			if (newX >= (i%this.mapWidth)*32+mapOffsetX && newX < (i%this.mapWidth)*32+32+mapOffsetX) {
-				// column for first check
-				tileX = i%this.mapWidth;
-			}
-			if (newY >= (i/this.mapWidth)*32+mapOffsetY && newY < (i/this.mapWidth)*32+32+mapOffsetY) {
-				// row for first check
-				tileY = i/this.mapWidth;
-			}
-		}
-
-		// other checks = fX+32,fY; fX,fY+32; fX+32,fY+32
-
-		var tile1, tile2, tile3, tile4;
-		tile1 = this.mapWidth*tileY+tileX;
-
-		if (oldX >= newX) {
-			left = true;
-		} else if (oldX < newX) {
-			right = true;
-		}
-		if (oldY > newY) {
-			up = true;
-		} else if (oldY < newY) {
-			down = true;
-		}
-
-		// make sure we force the player into the normally valid playspace; only needed for down and right because up corrects itself (gravity) and left is always valid (theoretically)
-		// should check everywhere, but saving some time.
-		if (tileX*32+mapOffsetX+32 > this.mapWidth+mapOffsetX) {
-			newX = tileX*32+mapOffsetX-32;
-		}
-		if (tileY*32+mapOffsetY+32 > this.mapHeight+mapOffsetY) {
-			newY = tileY*32+mapOffsetY-32;
-		}
-
-
-		/*
-			0 1 2 3 4 5 6 7 8 9
-
-			width*row + column = i
-
-			0 1 2 3 4
-			5 6 7 8 9
-
-			if oldX == newX and oldY == newY, skip everything; we'll have already checked this spot
-
-			if oldX == newX and oldY != newY, only need check 3 and/or 4
-
-			if oldX != newX and oldY == newY, only need check 1 and/or 2
-
-			else need to check all
-
-		*/
-	}
-}
-
 LPTiledMap.prototype.getTileValue = function(xCoord, yCoord, mapOffsetX, mapOffsetY, pass) {
 	// need to get whether it is possible for a character to enter
 	xCoord = Math.floor(xCoord);
@@ -324,5 +251,7 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 	} else {
 		position.xNew = xNew;
 	}
+
+	position.xCurrent = position.xNew;
 }
 
