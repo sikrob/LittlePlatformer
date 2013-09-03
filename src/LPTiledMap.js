@@ -245,13 +245,15 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 		tileId = xMap+yMap;
 		pass = this.tileValues[tileId] == 2;
 	}
-	if (!pass) {
-		xNew = xOld; // quick test for POC
-		position.xNew = xOld;
+	if (!pass) { // & not non-moving?
+		if (xOld < xNew) {
+			position.xNew = xMap*32-32+mapOffsetX;
+		} else {
+			position.xNew = xOld;
+		}
 	} else {
 		position.xNew = xNew;
 	}
 
 	position.xCurrent = position.xNew;
 }
-
