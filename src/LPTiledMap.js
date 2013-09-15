@@ -213,7 +213,9 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 		yCheck = yNew; // Use top corner
 	}
 
-	// xCheck w/ yNew and yNew+32 for both top and bottom of side we need to check
+	// do this as vector addition; xnew w/ yold, vice versa
+
+	// xCheck w/ y and y+32 for both top and bottom of side we need to check
 	for (var i = 0; i < this.tileValues.length; i++) {
 		if (i%this.mapWidth == Math.floor((xCheck-mapOffsetX)/32)) {
 			xMap = i;
@@ -221,7 +223,7 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 		}
 	}
 	for (var i = 0; i < this.tileValues.length; i++) {
-		if (Math.floor(i/this.mapWidth) == Math.floor((yNew-mapOffsetY)/32)) {
+		if (Math.floor(i/this.mapWidth) == Math.floor((yOld-mapOffsetY)/32)) {
 			yMap = i;
 			break;
 		}
@@ -237,7 +239,7 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 			}
 		}
 		for (var i = 0; i < this.tileValues.length; i++) {
-			if (Math.floor(i/this.mapWidth) == Math.floor((yNew+31-mapOffsetY)/32)) {
+			if (Math.floor(i/this.mapWidth) == Math.floor((yOld+31-mapOffsetY)/32)) {
 				yMap = i;
 				break;
 			}
@@ -245,7 +247,8 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 		tileId = xMap+yMap;
 		pass = this.tileValues[tileId] == 2;
 	}
-	if (!pass) { // & not non-moving?
+	
+	if (!pass) { // & not non-moving? 
 		if (xOld < xNew) {
 			position.xNew = xMap*32-32+mapOffsetX;
 		} else {

@@ -76,7 +76,7 @@ PlaystateClass.prototype.update = function (keysDown) {
 		tempXVelocity = 0;
 	}
 
-//	tempYVelocity += this.gravityVelocityMod;
+	tempYVelocity += this.gravityVelocityMod;
 	if (tempYVelocity > this.terminalVelocity) {
 		tempYVelocity = this.terminalVelocity;
 	}
@@ -90,18 +90,14 @@ PlaystateClass.prototype.update = function (keysDown) {
 	this.player.position.yCurrent = this.player.yPosition;
 
 	
-	this.tiledMap.resolveCollision(this.player.position, this.mapOffsetX, this.mapOffsetY);
-
-	var noCollision = true;
-	
+	this.tiledMap.resolveCollision(this.player.position, this.mapOffsetX, this.mapOffsetY);	
 
 	if (this.player.yPosition == tempYPos) {
 		this.player.jumping = false;
 	}
 
-	if (noCollision) {
-		this.player.setPosition(this.player.position.xNew, this.player.position.yNew);
-	}
+	this.player.setPosition(this.player.position.xNew, this.player.position.yNew);
+
 };
 
 PlaystateClass.prototype.render = function (canvasContext) {
