@@ -17,8 +17,8 @@ function PlaystateClass() {
 	this.player = new LPPlayerCharacter();
 	this.playerVelocityXMod = 2;//.1;
 	this.inertiaMod = 5;
-	this.playerVelocityJumpMod = 4;
-	this.gravityVelocityMod = .05;
+	this.playerVelocityJumpMod = 3.5;
+	this.gravityVelocityMod = .06;
 	this.terminalVelocity = 6;
 };
 
@@ -80,6 +80,8 @@ PlaystateClass.prototype.update = function (keysDown) {
 	if (tempYVelocity > this.terminalVelocity) {
 		tempYVelocity = this.terminalVelocity;
 	}
+
+	this.player.yVelocity = tempYVelocity;
 
 	var tempXPos = this.player.xPosition + tempXVelocity;
 	var tempYPos = this.player.yPosition + tempYVelocity;
