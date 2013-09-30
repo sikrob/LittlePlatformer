@@ -91,7 +91,7 @@ PlaystateClass.prototype.update = function (keysDown) {
 
 	this.tiledMap.resolveCollision(this.player.position, this.mapOffsetX, this.mapOffsetY);	
 
-	if (this.player.yPosition == tempYPos) {
+	if (this.player.position.yCurrent != tempYPos) {
 		this.player.jumping = false;
 	}
 
