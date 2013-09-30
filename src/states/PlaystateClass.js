@@ -18,8 +18,8 @@ function PlaystateClass() {
 	this.playerVelocityXMod = 2;//.1;
 	this.inertiaMod = 5;
 	this.playerVelocityJumpMod = 4;
-	this.gravityVelocityMod = -.05;
-	this.terminalVelocity = -6;
+	this.gravityVelocityMod = .05;
+	this.terminalVelocity = 6;
 };
 
 PlaystateClass.prototype.update = function (keysDown) {
@@ -82,21 +82,21 @@ PlaystateClass.prototype.update = function (keysDown) {
 	}
 
 	var tempXPos = this.player.xPosition + tempXVelocity;
-	var tempYPos = this.player.yPosition;// + tempYVelocity;
+	var tempYPos = this.player.yPosition + tempYVelocity;
 
 	this.player.position.xNew = tempXPos;
 	this.player.position.yNew = tempYPos;
 	this.player.position.xCurrent = this.player.xPosition;
 	this.player.position.yCurrent = this.player.yPosition;
 
-	
 	this.tiledMap.resolveCollision(this.player.position, this.mapOffsetX, this.mapOffsetY);	
 
 	if (this.player.yPosition == tempYPos) {
 		this.player.jumping = false;
 	}
 
-	this.player.setPosition(this.player.position.xNew, this.player.position.yNew);
+	this.player.setPosition(this.player.position.xCurrent, this.player.position.yCurrent);
+//	this.player.yVelocity = tempYVelocity;
 
 };
 
