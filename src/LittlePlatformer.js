@@ -14,7 +14,7 @@ var createCanvas = function() {
 var LittlePlatformerGameLoop = function(canvasContext, LPGSC, keysDown) { // LPGSC - LPGameStateController
 	LPGSC.update(keysDown);
 	LPGSC.render(canvasContext);
-}
+};
 
 var LittlePlatformer = function() {
 	var canvasContext = createCanvas();
@@ -40,5 +40,5 @@ var LittlePlatformer = function() {
 
 	// Pass in with anonymous function because otherwise it sets the code to execute as the
 	// result of LittlePlatformerGameLoop, which is null.
-	setInterval(function() {LittlePlatformerGameLoop(canvasContext, LPGSC, keysDown)}, 1);
+	setInterval(function() {LittlePlatformerGameLoop(canvasContext, LPGSC, keysDown);}, 1);
 };

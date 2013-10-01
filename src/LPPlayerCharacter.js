@@ -11,7 +11,7 @@ function LPPlayerCharacter() {
 	this.xMaxVelocity = 5;
 
 	this.position = new LPEntityPosition();
-};
+}
 
 LPPlayerCharacter.prototype.setPosition = function(xNew, yNew) {
 	this.xPosition = xNew;
@@ -21,7 +21,7 @@ LPPlayerCharacter.prototype.setPosition = function(xNew, yNew) {
 LPPlayerCharacter.prototype.setVelocity = function(xNew, yNew) {
 	this.xVelocity = xNew;
 	this.yVelocity = yNew;
-}
+};
 
 LPPlayerCharacter.prototype.render = function(canvasContext) {
 	canvasContext.fillStyle = "#00F";

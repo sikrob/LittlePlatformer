@@ -23,7 +23,7 @@ more technical problems I'm solving, the better.
 ### Running Little Platformer
 Download the files, upload them to a webserver, and navigate to
 (your webserver)/LittlePlatformer.html. You can't run the game directly from your computer
-(unless you fanangle a set up to circumvent same-origin security policies, which is doable)
+(unless you use Firefox)
 which is why I recommend just uploading it somewhere.
 
 Alternately, you can play the game from my own website - once the game is running, I will

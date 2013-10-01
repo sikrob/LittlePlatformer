@@ -1,7 +1,4 @@
 // PlaystateClass.js
-
-PlaystateClass.prototype = new GamestateClass();
-PlaystateClass.prototype.constructor = PlaystateClass;
 function PlaystateClass() {
 	this.stateName = "play";
 
@@ -18,9 +15,11 @@ function PlaystateClass() {
 	this.playerVelocityXMod = 2;//.1;
 	this.inertiaMod = 5;
 	this.playerVelocityJumpMod = 3.5;
-	this.gravityVelocityMod = .06;
+	this.gravityVelocityMod = 0.06;
 	this.terminalVelocity = 6;
-};
+}
+PlaystateClass.prototype = new GamestateClass();
+PlaystateClass.prototype.constructor = PlaystateClass;
 
 PlaystateClass.prototype.update = function (keysDown) {
 	if (!this.initialized) {
