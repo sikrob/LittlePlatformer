@@ -9,7 +9,7 @@
 function GamestateClass() {
 	this.stateName = "gsc";
 	this.newState = "";
-};
+}
 
 GamestateClass.prototype.update = function (keysDown) {
 };

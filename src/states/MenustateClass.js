@@ -1,7 +1,4 @@
 // MenustateClass.js
-
-MenustateClass.prototype = new GamestateClass();
-MenustateClass.prototype.constructor = MenustateClass;
 function MenustateClass() {
 	this.stateName = "menu";
 
@@ -14,7 +11,10 @@ function MenustateClass() {
 	this.arrowStrokeStyle = "#000";
 	this.arrowX = 300;
 	this.arrowY = 310;
-};
+}
+
+MenustateClass.prototype = new GamestateClass();
+MenustateClass.prototype.constructor = MenustateClass;
 
 MenustateClass.prototype.update = function (keysDown) {
 	this.userInput = "";

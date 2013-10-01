@@ -14,13 +14,13 @@ function LPTiledMap() {
 	this.mapHeight = -1;
 	this.mapPXHeight = -1;
 	this.mapPXWidth = -1;
-	this.tileValues = new Array();
+	this.tileValues = [];
 
 	this.startX = -1;
 	this.startY = -1;
 	this.endX = -1;
 	this.endY = -1;
-};
+}
 
 LPTiledMap.prototype.loadMap = function(mapName) {
 	if (this.mapName != mapName) {

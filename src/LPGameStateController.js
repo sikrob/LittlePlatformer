@@ -4,7 +4,7 @@
 
 function LPGameStateController() {
 	this.currentState = "";
-};
+}
 
 LPGameStateController.prototype.addState = function (newState) { // In this context, "new" means a totally new state.
 	this[newState.stateName] = newState;
@@ -13,11 +13,11 @@ LPGameStateController.prototype.addState = function (newState) { // In this cont
 LPGameStateController.prototype.changeState = function(newState) {	// In this context, "new" only means a different state
 																	// already contained in LPGSC.
 	this.currentState = newState;
-}
+};
 
 LPGameStateController.prototype.update = function(keysDown) {
 	this[this.currentState].update(keysDown);
-	if (this[this.currentState].newState != "") {
+	if (this[this.currentState].newState !== "") {
 		this.changeState(this[this.currentState].newState);
 	}
 };
