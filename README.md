@@ -13,7 +13,7 @@ The main goal for this project is to create a platformer with the following crit
 * State Based Game
 * Read and parse XML data for maps (Tiled maps)
 * Use ~~graphics for maps, player, environment (monsters?)~~ HTML5 canvas shapes for graphics
-* Use sound
+* Use sound (only using ogg format for simplicity/compactness)
 
 The goal of this game is really to create the classes and such that I need for the next game.
 I know there are existing systems out there for making platforming games that will be better
@@ -28,3 +28,6 @@ which is why I recommend just uploading it somewhere.
 
 Alternately, you can play the game from my own website - once the game is running, I will
 post a link here.
+
+Credit: jump_02.ogg was converted from jump_02.wav; jump_02.wav is provided by dklon for free use. dklon's full Platformer Jumping Sounds pack is available at:
+http://opengameart.org/content/platformer-jumping-sounds

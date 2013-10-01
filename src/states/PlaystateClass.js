@@ -17,6 +17,8 @@ function PlaystateClass() {
 	this.playerVelocityJumpMod = 3.5;
 	this.gravityVelocityMod = 0.06;
 	this.terminalVelocity = 6;
+
+	this.jumpSnd = new Audio("res/snd/jump_02.ogg");
 }
 PlaystateClass.prototype = new GamestateClass();
 PlaystateClass.prototype.constructor = PlaystateClass;
@@ -64,6 +66,7 @@ PlaystateClass.prototype.update = function (keysDown) {
 	if (getConstant("W") in keysDown || getConstant("UP") in keysDown) {
 		//tempYVelocity 
 		if (!this.player.jumping) {
+			this.jumpSnd.play();
 			tempYVelocity = -this.playerVelocityJumpMod;
 			this.player.jumping = true;
 		}
