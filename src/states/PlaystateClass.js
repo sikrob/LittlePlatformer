@@ -20,7 +20,7 @@ function PlaystateClass() {
 	this.playerVelocityJumpMod = 3.5;
 	this.gravityVelocityMod = 0.06;
 	this.terminalVelocity = 6;
-};
+}
 
 PlaystateClass.prototype.update = function (keysDown) {
 	if (!this.initialized) {

@@ -20,7 +20,7 @@ function LPTiledMap() {
 	this.startY = -1;
 	this.endX = -1;
 	this.endY = -1;
-};
+}
 
 LPTiledMap.prototype.loadMap = function(mapName) {
 	if (this.mapName != mapName) {
