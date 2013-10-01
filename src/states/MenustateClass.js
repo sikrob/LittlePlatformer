@@ -80,11 +80,6 @@ MenustateClass.prototype.render = function (canvasContext) {
 	canvasContext.fillText("ABOUT", 330, 350);
 	canvasContext.strokeText("ABOUT", 330, 350);
 
-	// DEBUG
-	canvasContext.font = "10px Helvetica";
-	canvasContext.fillText("DEBUG:" + this.userInput, 10, 500);
-	canvasContext.fillText(this.newState, 10, 515);
-
 	// dynamic content here
 	canvasContext.font = this.arrowFont;
 	canvasContext.fillStyle = this.arrowFillStyle;

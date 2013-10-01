@@ -29,5 +29,6 @@ which is why I recommend just uploading it somewhere.
 Alternately, you can play the game from my own website - once the game is running, I will
 post a link here.
 
-Credit: jump_02.ogg was converted from jump_02.wav; jump_02.wav is provided by dklon for free use. dklon's full Platformer Jumping Sounds pack is available at:
+Credit: jump_02.ogg was converted from jump_02.wav; jump_02.wav is provided by dklon for
+free use. dklon's full Platformer Jumping Sounds pack is available at:
 http://opengameart.org/content/platformer-jumping-sounds
