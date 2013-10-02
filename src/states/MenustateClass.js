@@ -23,7 +23,7 @@ MenustateClass.prototype.update = function (keysDown) {
 	if (getConstant("SPACEBAR") in keysDown || getConstant("ENTER") in keysDown) {
 		this.userInput = this.userInput + "SELECT";
 		if (this.selectedOption == 1) {
-			this.newState = "play"; // This will get scooped up by the GSC, which will automatically enable the other state, pausing this one.
+			this.newState = "play";
 		} else if (this.selectedOption == 2) {
 			this.showAboutText = true;
 		}

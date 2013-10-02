@@ -14,7 +14,7 @@ function PlaystateClass() {
 	this.player = new LPPlayerCharacter();
 	this.playerVelocityXMod = 2;//.1;
 	this.inertiaMod = 5;
-	this.playerVelocityJumpMod = 3.5;
+	this.playerVelocityJumpMod = 3;
 	this.gravityVelocityMod = 0.06;
 	this.terminalVelocity = 6;
 
