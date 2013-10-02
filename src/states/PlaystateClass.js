@@ -97,11 +97,10 @@ PlaystateClass.prototype.update = function (keysDown) {
 
 	if ((this.player.position.yCurrent != tempYPos) && (this.player.position.yCurrent < tempYPos)) {
 		this.player.jumping = false;
+		this.player.yVelocity = 0;
 	}
 
 	this.player.setPosition(this.player.position.xCurrent, this.player.position.yCurrent);
-//	this.player.yVelocity = tempYVelocity;
-
 };
 
 PlaystateClass.prototype.render = function (canvasContext) {
