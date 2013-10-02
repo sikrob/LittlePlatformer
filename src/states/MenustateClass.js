@@ -4,6 +4,7 @@ function MenustateClass() {
 
 	this.userInput = "";
 	this.selectedOption = 1; // 1=PLAY 2=ABOUT
+	this.showAboutText = false;
 
 	// arrow info
 	this.arrowFont = "36px Helvetica";
@@ -24,9 +25,10 @@ MenustateClass.prototype.update = function (keysDown) {
 		if (this.selectedOption == 1) {
 			this.newState = "play"; // This will get scooped up by the GSC, which will automatically enable the other state, pausing this one.
 		} else if (this.selectedOption == 2) {
-			// Theoretically should do something here, but I don't know that I feel like coding an About screen no one will ever look at.
-			// May just remove this menu option for this game but keep the coding ideas saved somewhere for the next so I don't forget.
+			this.showAboutText = true;
 		}
+	} else {
+		this.showAboutText = false;
 	}
 
 	if (getConstant("W") in keysDown || getConstant("UP") in keysDown || getConstant("S") in keysDown || getConstant("DOWN") in keysDown) {
@@ -86,6 +88,16 @@ MenustateClass.prototype.render = function (canvasContext) {
 	canvasContext.strokeStyle = this.arrowStrokeStyle;
 	canvasContext.fillText(">", this.arrowX, this.arrowY);
 	canvasContext.strokeText(">", this.arrowX, this.arrowY);
+
+	if (this.showAboutText) {
+		canvasContext.font = "18px Helvetica";
+		canvasContext.fillText("Little Platformer is a barebones platforming game written in javascript.",120,450);
+		canvasContext.font = "16px Helvetica";
+		canvasContext.fillText("It was created in response to onegameamonth.com and used a free sound asset",120,480);
+		canvasContext.fillText("from dklon via opengameart.org.",120,500);
+		canvasContext.font = "12px Helvetica";
+		canvasContext.fillText("Credit to the people on github who helped out, too.", 120, 520);
+	}
 	// /dynamic content
 
 	canvasContext.strokeStyle = "#000";
