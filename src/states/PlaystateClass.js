@@ -14,16 +14,18 @@ function PlaystateClass() {
 	this.player = new LPPlayerCharacter();
 	this.playerVelocityXMod = 2;//.1;
 	this.inertiaMod = 5;
-	this.playerVelocityJumpMod = 3;
-	this.gravityVelocityMod = 0.06;
-	this.terminalVelocity = 6;
+	this.playerVelocityJumpMod = 5;
+	this.gravityVelocityMod = 0.1;
+	this.terminalVelocity = 20;
 
 	this.jumpSnd = new Audio("res/snd/jump_02.ogg");
+  this.prevTime = new Date().getTime();
 }
 PlaystateClass.prototype = new GamestateClass();
 PlaystateClass.prototype.constructor = PlaystateClass;
 
 PlaystateClass.prototype.update = function (keysDown) {
+  var deltaTime = new Date().getTime() - this.prevTime;
 	if (!this.initialized) {
 		if (!this.tiled) {
 			this.tiledMap.loadMap("1");
@@ -49,7 +51,6 @@ PlaystateClass.prototype.update = function (keysDown) {
 
 	var tempXVelocity = this.player.xVelocity;
 	var tempYVelocity = this.player.yVelocity;
-
 	if (getConstant("A") in keysDown || getConstant("LEFT") in keysDown) {
 		tempXVelocity -= this.playerVelocityXMod;
 		if (tempXVelocity < -this.player.xMaxVelocity) {
@@ -79,12 +80,14 @@ PlaystateClass.prototype.update = function (keysDown) {
 	}
 
 	tempYVelocity += this.gravityVelocityMod;
+  tempXVelocity *= deltaTime/5;
+  //tempYVelocity *= deltaTime/10;
+
 	if (tempYVelocity > this.terminalVelocity) {
 		tempYVelocity = this.terminalVelocity;
 	}
 
 	this.player.yVelocity = tempYVelocity;
-
 	var tempXPos = this.player.xPosition + tempXVelocity;
 	var tempYPos = this.player.yPosition + tempYVelocity;
 
@@ -101,13 +104,9 @@ PlaystateClass.prototype.update = function (keysDown) {
 	}
 
 	this.player.setPosition(this.player.position.xCurrent, this.player.position.yCurrent);
+//	this.player.yVelocity = tempYVelocity;
 
-	// Level clear logic
-	if (this.initialized && 
-		(this.player.position.xCurrent == (this.tiledMap.endX+this.mapOffsetX)) && 
-		(this.player.position.yCurrent == (this.tiledMap.endY+this.mapOffsetY-32))) {
-		console.log("win");
-	}
+  this.prevTime = new Date().getTime();
 };
 
 PlaystateClass.prototype.render = function (canvasContext) {
