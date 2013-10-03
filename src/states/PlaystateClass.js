@@ -14,18 +14,18 @@ function PlaystateClass() {
 	this.player = new LPPlayerCharacter();
 	this.playerVelocityXMod = 2;//.1;
 	this.inertiaMod = 5;
-	this.playerVelocityJumpMod = 5;
+	this.playerVelocityJumpMod = 4;
 	this.gravityVelocityMod = 0.1;
 	this.terminalVelocity = 20;
 
 	this.jumpSnd = new Audio("res/snd/jump_02.ogg");
-  this.prevTime = new Date().getTime();
+	this.prevTime = new Date().getTime();
 }
 PlaystateClass.prototype = new GamestateClass();
 PlaystateClass.prototype.constructor = PlaystateClass;
 
 PlaystateClass.prototype.update = function (keysDown) {
-  var deltaTime = new Date().getTime() - this.prevTime;
+	var deltaTime = new Date().getTime() - this.prevTime;
 	if (!this.initialized) {
 		if (!this.tiled) {
 			this.tiledMap.loadMap("1");
@@ -65,7 +65,6 @@ PlaystateClass.prototype.update = function (keysDown) {
 	}
 
 	if (getConstant("W") in keysDown || getConstant("UP") in keysDown) {
-		//tempYVelocity 
 		if (!this.player.jumping) {
 			this.jumpSnd.play();
 			tempYVelocity = -this.playerVelocityJumpMod;
@@ -80,8 +79,7 @@ PlaystateClass.prototype.update = function (keysDown) {
 	}
 
 	tempYVelocity += this.gravityVelocityMod;
-  tempXVelocity *= deltaTime/5;
-  //tempYVelocity *= deltaTime/10;
+	tempXVelocity *= deltaTime/5;
 
 	if (tempYVelocity > this.terminalVelocity) {
 		tempYVelocity = this.terminalVelocity;
@@ -104,9 +102,8 @@ PlaystateClass.prototype.update = function (keysDown) {
 	}
 
 	this.player.setPosition(this.player.position.xCurrent, this.player.position.yCurrent);
-//	this.player.yVelocity = tempYVelocity;
 
-  this.prevTime = new Date().getTime();
+	this.prevTime = new Date().getTime();
 };
 
 PlaystateClass.prototype.render = function (canvasContext) {
