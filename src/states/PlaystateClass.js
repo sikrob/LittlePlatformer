@@ -28,7 +28,7 @@ PlaystateClass.prototype.update = function (keysDown) {
   var deltaTime = new Date().getTime() - this.prevTime;
 	if (!this.initialized) {
 		if (!this.tiled) {
-			this.tiledMap.loadMap("0");
+			this.tiledMap.loadMap("1");
 			this.tiled = true;
 		}
 
@@ -98,8 +98,9 @@ PlaystateClass.prototype.update = function (keysDown) {
 
 	this.tiledMap.resolveCollision(this.player.position, this.mapOffsetX, this.mapOffsetY);	
 
-	if (this.player.position.yCurrent != tempYPos) {
+	if ((this.player.position.yCurrent != tempYPos) && (this.player.position.yCurrent < tempYPos)) {
 		this.player.jumping = false;
+		this.player.yVelocity = 0;
 	}
 
 	this.player.setPosition(this.player.position.xCurrent, this.player.position.yCurrent);
