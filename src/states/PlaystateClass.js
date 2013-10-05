@@ -103,6 +103,12 @@ PlaystateClass.prototype.update = function (keysDown) {
 
 	this.player.setPosition(this.player.position.xCurrent, this.player.position.yCurrent);
 
+	if (this.initialized &&
+		(this.player.position.xCurrent == (this.tiledMap.endX+this.mapOffsetX)) &&
+		(this.player.position.yCurrent == (this.tiledMap.endY+this.mapOffsetY-32))) {
+		// end level logic
+	}
+
 	this.prevTime = new Date().getTime();
 };
 
