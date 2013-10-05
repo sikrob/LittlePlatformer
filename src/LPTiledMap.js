@@ -251,6 +251,8 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 	if (!pass) { // & not non-moving? 
 		if (xOld < xNew) {
 			position.xNew = xMap*32-32+mapOffsetX;
+		} else if (xOld > xNew) {
+			position.xNew = xMap*32+32+mapOffsetX;
 		} else {
 			position.xNew = xOld;
 		}
@@ -295,7 +297,9 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 	if (!pass) { // & not non-moving? 
 		if (yOld < yNew) {
 			position.yNew = (yMap/20)*32-32+mapOffsetY;
-		} else {
+		} else if (yOld > yNew) {
+			position.yNew = (yMap/20)*32+32+mapOffsetY; // need to make these dependant on map height, not just 20
+		}else {
 			position.yNew = yOld;
 		}
 	} else {
