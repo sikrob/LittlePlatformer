@@ -8,6 +8,7 @@ function PlaystateClass() {
 	this.mapOffsetY = -1;
 	this.mapOffsetSet = false;
 	this.initialized = false;
+	this.completed = false;
 
 	this.userInput = "";
 
@@ -101,12 +102,12 @@ PlaystateClass.prototype.update = function (keysDown) {
 		this.player.yVelocity = 0;
 	}
 
-	this.player.setPosition(this.player.position.xCurrent, this.player.position.yCurrent);
-
 	if (this.initialized &&
 		(this.player.position.xCurrent == (this.tiledMap.endX+this.mapOffsetX)) &&
 		(this.player.position.yCurrent == (this.tiledMap.endY+this.mapOffsetY-32))) {
-		// end level logic
+		this.completed = true;
+	} else {
+		this.player.setPosition(this.player.position.xCurrent, this.player.position.yCurrent);
 	}
 
 	this.prevTime = new Date().getTime();
@@ -121,7 +122,16 @@ PlaystateClass.prototype.render = function (canvasContext) {
 	canvasContext.font = oldFont;
 
 	if (this.initialized) {
-		this.tiledMap.renderMap(canvasContext, this.mapOffsetX, this.mapOffsetY);
-		this.player.render(canvasContext);
+		if (!this.completed) {
+			this.tiledMap.renderMap(canvasContext, this.mapOffsetX, this.mapOffsetY);
+			this.player.render(canvasContext);
+		} else {
+			// end level screen
+			canvasContext.fillStyle = "#000";
+			canvasContext.fillRect(0,0,800,600);
+			canvasContext.fillStyle = "#fff";
+			canvasContext.font = "27px Helvetica";
+			canvasContext.fillText("Level complete!", 312, 250);
+		}
 	}
 };
