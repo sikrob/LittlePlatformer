@@ -111,6 +111,15 @@ PlaystateClass.prototype.update = function (keysDown) {
 				(this.player.position.yCurrent == (this.tiledMap.endY+this.mapOffsetY-32))) {
 				this.completed = true;
 			}
+		} else { // level complete logic
+			// completed = true will cause render to show the level complete screeen
+			// player can press spacebar to leave the screen
+			// once spacebar is pressed:
+			//	seek new level to load
+			//	if level found
+			//		load level
+			//	else
+			//		go to menu
 		}
 	}
 
