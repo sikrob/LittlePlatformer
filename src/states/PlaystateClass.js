@@ -13,7 +13,7 @@ function PlaystateClass() {
 	this.userInput = "";
 
 	this.player = new LPPlayerCharacter();
-	this.playerVelocityXMod = 2;//.1;
+	this.playerVelocityXMod = 2;
 	this.inertiaMod = 5;
 	this.playerVelocityJumpMod = 4;
 	this.gravityVelocityMod = 0.1;
@@ -48,66 +48,70 @@ PlaystateClass.prototype.update = function (keysDown) {
 			this.player.setPosition(this.tiledMap.startX + this.mapOffsetX, this.tiledMap.startY + this.mapOffsetY - 32);
 			this.initialized = true;
 		}
-	}
-
-	var tempXVelocity = this.player.xVelocity;
-	var tempYVelocity = this.player.yVelocity;
-	if (getConstant("A") in keysDown || getConstant("LEFT") in keysDown) {
-		tempXVelocity -= this.playerVelocityXMod;
-		if (tempXVelocity < -this.player.xMaxVelocity) {
-			tempXVelocity = -this.player.xMaxVelocity;
-		}
-	}
-	if (getConstant("D") in keysDown || getConstant("RIGHT") in keysDown) {
-		tempXVelocity += this.playerVelocityXMod;
-		if (tempXVelocity > this.player.xMaxVelocity) {
-			tempXVelocity = this.player.xMaxVelocity;
-		}
-	}
-
-	if (getConstant("W") in keysDown || getConstant("UP") in keysDown) {
-		if (!this.player.jumping) {
-			this.jumpSnd.play();
-			tempYVelocity = -this.playerVelocityJumpMod;
-			this.player.jumping = true;
-		}
-	}
-
-	// no motion on S/DOWN
-
-	if (!(getConstant("D") in keysDown) && !(getConstant("RIGHT") in keysDown) && !(getConstant("A") in keysDown) && !(getConstant("LEFT") in keysDown)) {
-		tempXVelocity = 0;
-	}
-
-	tempYVelocity += this.gravityVelocityMod;
-	tempXVelocity *= deltaTime/5;
-
-	if (tempYVelocity > this.terminalVelocity) {
-		tempYVelocity = this.terminalVelocity;
-	}
-
-	this.player.yVelocity = tempYVelocity;
-	var tempXPos = this.player.xPosition + tempXVelocity;
-	var tempYPos = this.player.yPosition + tempYVelocity;
-
-	this.player.position.xNew = tempXPos;
-	this.player.position.yNew = tempYPos;
-	this.player.position.xCurrent = this.player.xPosition;
-	this.player.position.yCurrent = this.player.yPosition;
-
-	this.tiledMap.resolveCollision(this.player.position, this.mapOffsetX, this.mapOffsetY);	
-
-	if ((this.player.position.yCurrent != tempYPos) && (this.player.position.yCurrent < tempYPos)) {
-		this.player.jumping = false;
-		this.player.yVelocity = 0;
-	}
-
-	if (this.initialized &&
-		(this.player.position.xCurrent == (this.tiledMap.endX+this.mapOffsetX)) &&
-		(this.player.position.yCurrent == (this.tiledMap.endY+this.mapOffsetY-32))) {
-		this.completed = true;
 	} else {
-		this.player.setPosition(this.player.position.xCurrent, this.player.position.yCurrent);
+		if (!this.completed) {
+			var tempXVelocity = this.player.xVelocity;
+			var tempYVelocity = this.player.yVelocity;
+			if (getConstant("A") in keysDown || getConstant("LEFT") in keysDown) {
+				tempXVelocity -= this.playerVelocityXMod;
+				if (tempXVelocity < -this.player.xMaxVelocity) {
+					tempXVelocity = -this.player.xMaxVelocity;
+				}
+			}
+			if (getConstant("D") in keysDown || getConstant("RIGHT") in keysDown) {
+				tempXVelocity += this.playerVelocityXMod;
+				if (tempXVelocity > this.player.xMaxVelocity) {
+					tempXVelocity = this.player.xMaxVelocity;
+				}
+			}
+
+			if (getConstant("W") in keysDown || getConstant("UP") in keysDown) {
+				if (!this.player.jumping) {
+					this.jumpSnd.play();
+					tempYVelocity = -this.playerVelocityJumpMod;
+					this.player.jumping = true;
+				}
+			}
+
+			// no motion on S/DOWN
+
+			if (!(getConstant("D") in keysDown) && !(getConstant("RIGHT") in keysDown) && !(getConstant("A") in keysDown) && !(getConstant("LEFT") in keysDown)) {
+				tempXVelocity = 0;
+			}
+
+			tempYVelocity += this.gravityVelocityMod;
+			tempXVelocity *= deltaTime/5;
+
+			if (tempYVelocity > this.terminalVelocity) {
+				tempYVelocity = this.terminalVelocity;
+			}
+
+			this.player.yVelocity = tempYVelocity;
+			var tempXPos = this.player.xPosition + tempXVelocity;
+			var tempYPos = this.player.yPosition + tempYVelocity;
+
+			this.player.position.xNew = tempXPos;
+			this.player.position.yNew = tempYPos;
+			this.player.position.xCurrent = this.player.xPosition;
+			this.player.position.yCurrent = this.player.yPosition;
+
+			this.tiledMap.resolveCollision(this.player.position, this.mapOffsetX, this.mapOffsetY);	
+
+			if (this.player.position.yCurrent != tempYPos) {
+				if (this.player.position.yCurrent < tempYPos) {
+					this.player.jumping = false;
+				}
+				this.player.yVelocity = 0;
+			} 
+
+			this.player.setPosition(this.player.position.xCurrent, this.player.position.yCurrent);
+
+			if (this.initialized &&
+				(this.player.position.xCurrent == (this.tiledMap.endX+this.mapOffsetX)) &&
+				(this.player.position.yCurrent == (this.tiledMap.endY+this.mapOffsetY-32))) {
+				this.completed = true;
+			}
+		}
 	}
 
 	this.prevTime = new Date().getTime();
