@@ -2,6 +2,9 @@
 function PlaystateClass() {
 	this.stateName = "play";
 
+	this.listed = false;
+	this.mapList = new LPMapList();
+
 	this.tiled = false;
 	this.tiledMap = new LPTiledMap();
 	this.mapOffsetX = -1;
@@ -28,7 +31,12 @@ PlaystateClass.prototype.constructor = PlaystateClass;
 PlaystateClass.prototype.update = function (keysDown) {
 	var deltaTime = new Date().getTime() - this.prevTime;
 	if (!this.initialized) {
-		if (!this.tiled) {
+		if (!this.listed) {
+			this.mapList.loadMapList("maplist");
+			this.listed = true;
+		}
+
+		if (this.listed && !this.tiled) {
 			this.tiledMap.loadMap("1");
 			this.tiled = true;
 		}
@@ -113,10 +121,7 @@ PlaystateClass.prototype.update = function (keysDown) {
 			}
 		} else { // level complete logic
 			if (getConstant("SPACEBAR") in keysDown) {
-				// once spacebar is pressed:
-
-				//	seek new level to load
-
+				//	seek new level to load -- 
 				// two ways to do level loading:
 				// have a list loaded so that we can load by name
 				// or just continue with the sequential number thing and do load "level+1" until no map is found

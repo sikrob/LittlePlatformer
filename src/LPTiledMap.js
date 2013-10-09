@@ -27,7 +27,6 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 		this.mapLoaded = false;
 	}
 
-
 	var xmlHR = new XMLHttpRequest();
 
 	xmlHR.onload = function() {
@@ -118,13 +117,9 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 	}
 
 	if (this.mapLoaded == false) {
-
 		var mapToLoad = "res/mapXML/" + mapName + ".xml"; // This is pretty much the lease safe way to do this.
 		xmlHR.open("GET", mapToLoad); // sanitized mapName goes here.
 		xmlHR.responseType = "document";
-		xmlHR.myNewResponse = function(m) {
-			this.a = 10;
-		};
 		xmlHR.send();
 	}
 
