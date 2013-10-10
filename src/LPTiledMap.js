@@ -124,7 +124,7 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 	}
 
 	var that = this; // An obvious solution from http://stackoverflow.com/questions/2130241/pass-correct-this-context-to-settimeout-callback
-	setTimeout(function() {xmlHR.returnStuff(that)}, 1000);
+	setTimeout(function() {xmlHR.returnStuff(that)}, 500);
 
 	this.mapName = mapName;
 };

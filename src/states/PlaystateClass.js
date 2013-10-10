@@ -36,8 +36,8 @@ PlaystateClass.prototype.update = function (keysDown) {
 			this.listed = true;
 		}
 
-		if (this.listed && !this.tiled) {
-			this.tiledMap.loadMap("1");
+		if (this.listed && this.mapList.mapListLoaded && !this.tiled) {
+			this.tiledMap.loadMap(this.mapList.mapList[this.mapList.currentMapIndex++]);
 			this.tiled = true;
 		}
 

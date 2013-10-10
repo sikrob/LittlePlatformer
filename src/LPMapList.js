@@ -17,13 +17,15 @@ LPMapList.prototype.loadMapList = function(mapListName) {
 	xmlHR.onload = function() {
 		var rootChildNodesLength = xmlHR.responseXML.documentElement.childNodes.length;
 
+		this.mapList = new Array ((rootChildNodesLength-1)/2);
+
+		var currentMapIndex = 0;
+
 		for (var i = 0; i < rootChildNodesLength; i++) {
 			var tempNode = xmlHR.responseXML.documentElement.childNodes[i];
-			// grab the length of the array
-			// mapList = new Array(dadadada);
-			// grab the map nodes
-			// grab the child data of the map nodes
-			// assemble into the list
+			if (tempNode.nodeName == "map") {
+			this.mapList[currentMapIndex++] = tempNode.childNodes[0].data;
+			}
 		}
 
 		this.mapListLoaded = true;
@@ -36,6 +38,7 @@ LPMapList.prototype.loadMapList = function(mapListName) {
 	xmlHR.returnStuff = function(lpml) {
 		lpml.mapList = this.mapList;
 		lpml.mapListLoaded = this.mapListLoaded;
+		lpml.currentMapIndex = 0;
 	}
 
 	if (this.mapListLoaded == false) {
@@ -46,6 +49,6 @@ LPMapList.prototype.loadMapList = function(mapListName) {
 	}
 
 	var that = this;
-	setTimeout(function() {xmlHR.returnStuff(that)}, 1000);
+	setTimeout(function() {xmlHR.returnStuff(that)}, 500);
 	this.mapListName = mapListName;
 };
