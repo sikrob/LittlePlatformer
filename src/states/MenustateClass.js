@@ -91,6 +91,8 @@ MenustateClass.prototype.render = function (canvasContext) {
 	canvasContext.font = "27px Helvetica";
 	canvasContext.fillText("A simple HTML5 game by Robert Sikorski.", 140, 140);
 	canvasContext.font = "10px Helvetica";
+	canvasContext.fillText("Version 1", 190, 565);
+	canvasContext.font = "10px Helvetica";
 	canvasContext.fillText("Copyright 2013; see LICENSE.MD at www.github.com/sikrob/LittlePlatformer for details.", 190, 580);
 
 	canvasContext.font = "36px Helvetica";
