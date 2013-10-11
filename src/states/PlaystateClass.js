@@ -28,11 +28,31 @@ function PlaystateClass() {
 PlaystateClass.prototype = new GamestateClass();
 PlaystateClass.prototype.constructor = PlaystateClass;
 
+PlaystateClass.prototype.initialize = function () {
+	this.listed = false;
+	this.mapList = new LPMapList();
+
+	this.tiled = false;
+	this.tiledMap = new LPTiledMap();
+	this.mapOffsetX = -1;
+	this.mapOffsetY = -1;
+	this.mapOffsetSet = false;
+	this.initialized = false;
+	this.completed = false;
+
+	this.userInput = "";
+
+	this.newState = "";
+}
+
 PlaystateClass.prototype.update = function (keysDown) {
+
+	if (this.newState != "") {
+		this.initialize();
+	}
+
 	var deltaTime = new Date().getTime() - this.prevTime;
 	if (!this.initialized) {
-		this.newState = "";
-
 		if (!this.listed) {
 			this.mapList.loadMapList("maplist");
 			this.listed = true;
@@ -129,6 +149,12 @@ PlaystateClass.prototype.update = function (keysDown) {
 					this.tiled = false;
 					this.mapOffsetSet = false;
 					this.completed = false;
+					if (getConstant("SPACEBAR") in keysDown) {
+						delete keysDown[getConstant("SPACEBAR")];
+					}
+					if (getConstant("ENTER") in keysDown) {
+						delete keysDown[getConstant("ENTER")]
+					}
 				} else {
 					this.initialized = false;
 					this.tiled = false;

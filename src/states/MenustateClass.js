@@ -17,15 +17,30 @@ function MenustateClass() {
 MenustateClass.prototype = new GamestateClass();
 MenustateClass.prototype.constructor = MenustateClass;
 
+MenustateClass.prototype.initialize = function () {
+	this.userInput = "";
+	this.selectedOption = 1;
+	this.showAboutText = false;
+	this.newState = "";
+};
+
 MenustateClass.prototype.update = function (keysDown) {
 	this.userInput = "";
-	this.newState = "";
+
+	if (this.newState != "") {
+		this.initialize();
+	}
 
 	if (getConstant("SPACEBAR") in keysDown || getConstant("ENTER") in keysDown) {
 		this.userInput = this.userInput + "SELECT";
 		if (this.selectedOption == 1) {
 			this.newState = "play";
-			this.selectedOption = 0;
+			if (getConstant("SPACEBAR") in keysDown) {
+				delete keysDown[getConstant("SPACEBAR")];
+			}
+			if (getConstant("ENTER") in keysDown) {
+				delete keysDown[getConstant("ENTER")]
+			}
 		} else if (this.selectedOption == 2) {
 			this.showAboutText = true;
 		}

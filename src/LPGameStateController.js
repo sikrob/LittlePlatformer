@@ -16,9 +16,13 @@ LPGameStateController.prototype.changeState = function(newState) {	// In this co
 };
 
 LPGameStateController.prototype.update = function(keysDown) {
-	this[this.currentState].update(keysDown);
 	if (this[this.currentState].newState !== "") {
+		var oldState = this.currentState;
 		this.changeState(this[this.currentState].newState);
+		this[oldState].newState = "";
+		this[oldState].initialize();
+	} else {
+		this[this.currentState].update(keysDown);
 	}
 };
 
