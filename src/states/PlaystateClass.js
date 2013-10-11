@@ -31,6 +31,8 @@ PlaystateClass.prototype.constructor = PlaystateClass;
 PlaystateClass.prototype.update = function (keysDown) {
 	var deltaTime = new Date().getTime() - this.prevTime;
 	if (!this.initialized) {
+		this.newState = "";
+
 		if (!this.listed) {
 			this.mapList.loadMapList("maplist");
 			this.listed = true;
@@ -121,15 +123,18 @@ PlaystateClass.prototype.update = function (keysDown) {
 			}
 		} else { // level complete logic
 			if (getConstant("SPACEBAR") in keysDown) {
-				//	seek new level to load -- 
-				// two ways to do level loading:
-				// have a list loaded so that we can load by name
-				// or just continue with the sequential number thing and do load "level+1" until no map is found
-
-				//	if level found
-				//		load level
-				//	else
-				//		go to menu
+				if (this.mapList.currentMapIndex == this.mapList.mapList.length) {
+					this.newState = "menu";
+					this.initialized = false;
+					this.tiled = false;
+					this.mapOffsetSet = false;
+					this.completed = false;
+				} else {
+					this.initialized = false;
+					this.tiled = false;
+					this.mapOffsetSet = false;
+					this.completed = false;
+				}
 			}
 		}
 	}

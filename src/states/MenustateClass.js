@@ -19,11 +19,13 @@ MenustateClass.prototype.constructor = MenustateClass;
 
 MenustateClass.prototype.update = function (keysDown) {
 	this.userInput = "";
+	this.newState = "";
 
 	if (getConstant("SPACEBAR") in keysDown || getConstant("ENTER") in keysDown) {
 		this.userInput = this.userInput + "SELECT";
 		if (this.selectedOption == 1) {
 			this.newState = "play";
+			this.selectedOption = 0;
 		} else if (this.selectedOption == 2) {
 			this.showAboutText = true;
 		}
