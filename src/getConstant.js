@@ -7,6 +7,7 @@
 // a number.
 
 var getConstant = function(requestedConstant) {
+	"use strict";
 	var constant = -1;
 
 	switch (requestedConstant) {

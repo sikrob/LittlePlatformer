@@ -1,6 +1,7 @@
 // LPMapList.js
 // A class to read and contain the resulting list of maps to load
 function LPMapList() {
+	"use strict";
 	this.mapListLoaded = false;
 	this.mapListName = "";
 	this.mapList = [];
@@ -8,7 +9,8 @@ function LPMapList() {
 }
 
 LPMapList.prototype.loadMapList = function(mapListName) {
-	if (this.mapListName != mapListName) {
+	"use strict";
+	if (this.mapListName !== mapListName) {
 		this.mapListLoaded = false;
 	}
 

@@ -1,5 +1,6 @@
 // MenustateClass.js
 function MenustateClass() {
+	"use strict";
 	this.stateName = "menu";
 
 	this.userInput = "";
@@ -18,6 +19,7 @@ MenustateClass.prototype = new GamestateClass();
 MenustateClass.prototype.constructor = MenustateClass;
 
 MenustateClass.prototype.initialize = function () {
+	"use strict";
 	this.userInput = "";
 	this.selectedOption = 1;
 	this.showAboutText = false;
@@ -25,6 +27,7 @@ MenustateClass.prototype.initialize = function () {
 };
 
 MenustateClass.prototype.update = function (keysDown) {
+	"use strict";
 	this.userInput = "";
 
 	if (this.newState != "") {
@@ -78,6 +81,7 @@ MenustateClass.prototype.update = function (keysDown) {
 };
 
 MenustateClass.prototype.render = function (canvasContext) {
+	"use strict";
 	var oldFont = canvasContext.font;
 
 	canvasContext.fillStyle = "#acf";

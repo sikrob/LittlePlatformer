@@ -4,6 +4,7 @@
 // when looking at this code again in the future.
 
 var main = function() {
+	"use strict";
 	LittlePlatformer(); // Located in LittlePlatformer.js
 };
 

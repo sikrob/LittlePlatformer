@@ -3,6 +3,7 @@
 // This file contains the main gameloop and any intializations that it doesn't make sense to put somewhere else.
 
 var createCanvas = function() {
+	"use strict";
 	var canvas = document.createElement("canvas");
 	var canvasContext = canvas.getContext("2d");
 	canvas.width = 800;
@@ -12,11 +13,13 @@ var createCanvas = function() {
 };
 
 var LittlePlatformerGameLoop = function(canvasContext, LPGSC, keysDown) { // LPGSC - LPGameStateController
+	"use strict";
 	LPGSC.update(keysDown);
 	LPGSC.render(canvasContext);
 };
 
 var LittlePlatformer = function() {
+	"use strict";
 	var canvasContext = createCanvas();
 	canvasContext.font = "10px Helvetica";
 	canvasContext.fillText("Canvas created; context obtained!", 10, 10);
@@ -26,7 +29,7 @@ var LittlePlatformer = function() {
 		keysDown[e.keyCode] = true;
 	}, false);
 	window.addEventListener("keyup", function (e) {
-		if (e.keyCode in keysDown) {
+		if (keysDown.hasOwnProperty(e.keyCode)) {
 			delete keysDown[e.keyCode];
 		}
 	}, false);

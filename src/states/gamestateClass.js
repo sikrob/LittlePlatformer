@@ -7,6 +7,7 @@
 // Probably should read a book on game design or something at some point.
 
 function GamestateClass() {
+	"use strict";
 	this.stateName = "gsc";
 	this.newState = "";
 }

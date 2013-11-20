@@ -1,5 +1,6 @@
 // PlaystateClass.js
 function PlaystateClass() {
+	"use strict";
 	this.stateName = "play";
 
 	this.listed = false;
@@ -29,6 +30,7 @@ PlaystateClass.prototype = new GamestateClass();
 PlaystateClass.prototype.constructor = PlaystateClass;
 
 PlaystateClass.prototype.initialize = function () {
+	"use strict";
 	this.listed = false;
 	this.mapList = new LPMapList();
 
@@ -46,7 +48,7 @@ PlaystateClass.prototype.initialize = function () {
 }
 
 PlaystateClass.prototype.update = function (keysDown) {
-
+	"use strict";
 	if (this.newState != "") {
 		this.initialize();
 	}
@@ -169,6 +171,7 @@ PlaystateClass.prototype.update = function (keysDown) {
 };
 
 PlaystateClass.prototype.render = function (canvasContext) {
+	"use strict";
 	var oldFont = canvasContext.font;
 
 	canvasContext.fillStyle = "#5fa";

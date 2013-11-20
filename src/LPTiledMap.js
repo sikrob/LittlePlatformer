@@ -2,6 +2,7 @@
 // A class for loading and containing map data from TiledMaps. We will look for certain specific attributes by default,
 // however, so this may not be a great class since it won't be perfectly re-applicable for some projects.
 function LPTiledMap() {
+	"use strict";
 	this.mapName = "";
 	this.mapLoaded = false;
 
@@ -23,7 +24,8 @@ function LPTiledMap() {
 }
 
 LPTiledMap.prototype.loadMap = function(mapName) {
-	if (this.mapName != mapName) {
+	"use strict";
+	if (this.mapName !== mapName) {
 		this.mapLoaded = false;
 	}
 
@@ -130,6 +132,7 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 };
 
 LPTiledMap.prototype.renderMap = function(canvasContext, mapOffsetX, mapOffsetY) {
+	"use strict";
 	// should we do this here? How do we control what portion of the map is rendered in the future?
 	// We have all the data to draw it else where…
 	if (this.tileValues.length > 0) { // Only the most basic check here. Live fast, die young.
@@ -150,6 +153,7 @@ LPTiledMap.prototype.renderMap = function(canvasContext, mapOffsetX, mapOffsetY)
 };
 
 LPTiledMap.prototype.getTileValue = function(xCoord, yCoord, mapOffsetX, mapOffsetY, pass) {
+	"use strict";
 	// need to get whether it is possible for a character to enter
 	xCoord = Math.floor(xCoord);
 	yCoord = Math.floor(yCoord);
@@ -176,6 +180,7 @@ LPTiledMap.prototype.getTileValue = function(xCoord, yCoord, mapOffsetX, mapOffs
 }
 
 LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffsetY) {
+	"use strict";
 	var xOld;
 	var yOld;
 	var xNew;
