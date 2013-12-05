@@ -23,6 +23,9 @@ function PlaystateClass() {
 	this.gravityVelocityMod = 0.1;
 	this.terminalVelocity = 20;
 
+	this.playerPosLimitLeft = 150;
+	this.playerPosLimitRight = 650;
+
 	this.jumpSnd = new Audio("res/snd/jump_02.ogg");
 	this.prevTime = new Date().getTime();
 }
@@ -122,19 +125,30 @@ PlaystateClass.prototype.update = function (keysDown) {
 			var tempXPos = this.player.xPosition + tempXVelocity;
 			var tempYPos = this.player.yPosition + tempYVelocity;
 
+			// sketching out canvas movement...
+			// currnetly this breaks collision detection if it happens while mapoffset adjusts
+			// - maybe need to mix the new offset w/ old pos (xCur) to ensure proper calcs...
+//			if (tempXPos > this.playerPosLimitRight) {
+//				this.mapOffsetX -= tempXPos-this.playerPosLimitRight;
+//				tempXPos = this.playerPosLimitRight;
+//			} else if (tempXPos < this.playerPosLimitLeft) {
+//				this.mapOffsetX -= tempXPos-this.playerPosLimitLeft;
+//				tempXPos = this.playerPosLimitLeft;
+//			}
+
 			this.player.position.xNew = tempXPos;
 			this.player.position.yNew = tempYPos;
 			this.player.position.xCurrent = this.player.xPosition;
 			this.player.position.yCurrent = this.player.yPosition;
 
-			this.tiledMap.resolveCollision(this.player.position, this.mapOffsetX, this.mapOffsetY);	
+			this.tiledMap.resolveCollision(this.player.position, this.mapOffsetX, this.mapOffsetY);
 
 			if (this.player.position.yCurrent != tempYPos) {
 				if (this.player.position.yCurrent < tempYPos) {
 					this.player.jumping = false;
 				}
 				this.player.yVelocity = 0;
-			} 
+			}
 
 			this.player.setPosition(this.player.position.xCurrent, this.player.position.yCurrent);
 
