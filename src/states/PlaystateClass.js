@@ -8,8 +8,17 @@ function PlaystateClass() {
 
 	this.tiled = false;
 	this.tiledMap = new LPTiledMap();
-	this.mapOffsetX = -1;
-	this.mapOffsetY = -1;
+	this.tiledMapOffsets = new LPTiledMapOffsets();
+	this.tiledMapOffsets.curOffsetX = -1;
+	this.tiledMapOffsets.curOffsetY = -1;
+	this.tiledMapOffsets.oldOffsetX = -1;
+	this.tiledMapOffsets.oldOffsetY = -1;
+
+//	this.mapOffsetX = -1;
+//	this.mapOffsetY = -1;
+//	this.oldOffsetX = -1;
+//	this.oldOffsetY = -1;
+
 	this.mapOffsetSet = false;
 	this.initialized = false;
 	this.completed = false;
@@ -39,8 +48,17 @@ PlaystateClass.prototype.initialize = function () {
 
 	this.tiled = false;
 	this.tiledMap = new LPTiledMap();
-	this.mapOffsetX = -1;
-	this.mapOffsetY = -1;
+
+	this.tiledMapOffsets.curOffsetX = -1;
+	this.tiledMapOffsets.curOffsetY = -1;
+	this.tiledMapOffsets.oldOffsetX = -1;
+	this.tiledMapOffsets.oldOffsetY = -1;
+
+//	this.mapOffsetX = -1;
+//	this.mapOffsetY = -1;
+//	this.oldOffsetX = -1;
+//	this.oldOffsetY = -1;
+
 	this.mapOffsetSet = false;
 	this.initialized = false;
 	this.completed = false;
@@ -70,17 +88,23 @@ PlaystateClass.prototype.update = function (keysDown) {
 
 		if (this.tiled && this.tiledMap.mapLoaded) {
 			if (this.tiledMap.mapPXHeight < 600) {
-				this.mapOffsetY = (600 - this.tiledMap.mapPXHeight)/2;
+				this.tiledMapOffsets.curOffsetY = (600 - this.tiledMap.mapPXHeight)/2;
+//				this.mapOffsetY = (600 - this.tiledMap.mapPXHeight)/2;
+			} else {
+				this.tiledMapOffsets.curOffsetY = 0;
 			}
 			if (this.tiledMap.mapPXWidth < 800) {
-				this.mapOffsetX = (800 - this.tiledMap.mapPXWidth)/2;
+				this.tiledMapOffsets.curOffsetX = (800 - this.tiledMap.mapPXWidth)/2;
+//				this.mapOffsetX = (800 - this.tiledMap.mapPXWidth)/2;
+			} else {
+				this.tiledMapOffsets.curOffsetX = 0;
 			}
 
 			this.mapOffsetSet = true;
 		}
 
 		if (this.mapOffsetSet) {
-			this.player.setPosition(this.tiledMap.startX + this.mapOffsetX, this.tiledMap.startY + this.mapOffsetY - 32);
+			this.player.setPosition(this.tiledMap.startX + this.tiledMapOffsets.curOffsetX, this.tiledMap.startY + this.tiledMapOffsets.curOffsetY - 32);
 			this.initialized = true;
 		}
 	} else {
@@ -128,20 +152,27 @@ PlaystateClass.prototype.update = function (keysDown) {
 			// sketching out canvas movement...
 			// currnetly this breaks collision detection if it happens while mapoffset adjusts
 			// - maybe need to mix the new offset w/ old pos (xCur) to ensure proper calcs...
-//			if (tempXPos > this.playerPosLimitRight) {
+			// I believe it breaks due to early check against just pPos and not mOffset
+			if (tempXPos > this.playerPosLimitRight) {
+				this.tiledMapOffsets.oldOffsetX = this.tiledMapOffsets.curOffsetX;
+//				this.oldOffsetX = this.mapOffsetX;
+				this.tiledMapOffsets.curOffsetX -=  tempXPos-this.playerPosLimitRight;
 //				this.mapOffsetX -= tempXPos-this.playerPosLimitRight;
-//				tempXPos = this.playerPosLimitRight;
-//			} else if (tempXPos < this.playerPosLimitLeft) {
+				tempXPos = this.playerPosLimitRight;
+			} else if (tempXPos < this.playerPosLimitLeft) {
+				this.tiledMapOffsets.oldOffsetX = this.tiledMapOffsets.curOffsetX;
+//				this.oldOffsetX = this.mapOffsetX;
+				this.tiledMapOffsets.curOffsetX -= tempXPos-this.playerPosLimitLeft;
 //				this.mapOffsetX -= tempXPos-this.playerPosLimitLeft;
-//				tempXPos = this.playerPosLimitLeft;
-//			}
+				tempXPos = this.playerPosLimitLeft;
+			}
 
 			this.player.position.xNew = tempXPos;
 			this.player.position.yNew = tempYPos;
 			this.player.position.xCurrent = this.player.xPosition;
 			this.player.position.yCurrent = this.player.yPosition;
 
-			this.tiledMap.resolveCollision(this.player.position, this.mapOffsetX, this.mapOffsetY);
+			this.tiledMap.resolveCollision(this.player.position, this.tiledMapOffsets);
 
 			if (this.player.position.yCurrent != tempYPos) {
 				if (this.player.position.yCurrent < tempYPos) {
@@ -153,8 +184,8 @@ PlaystateClass.prototype.update = function (keysDown) {
 			this.player.setPosition(this.player.position.xCurrent, this.player.position.yCurrent);
 
 			if (this.initialized &&
-				(this.player.position.xCurrent == (this.tiledMap.endX+this.mapOffsetX)) &&
-				(this.player.position.yCurrent == (this.tiledMap.endY+this.mapOffsetY-32))) {
+				(this.player.position.xCurrent == (this.tiledMap.endX+this.tiledMapOffsets.curOffsetX)) &&
+				(this.player.position.yCurrent == (this.tiledMap.endY+this.tiledMapOffsets.curOffsetY-32))) {
 				this.completed = true;
 			}
 		} else { // level complete logic
@@ -195,7 +226,7 @@ PlaystateClass.prototype.render = function (canvasContext) {
 
 	if (this.initialized) {
 		if (!this.completed) {
-			this.tiledMap.renderMap(canvasContext, this.mapOffsetX, this.mapOffsetY);
+			this.tiledMap.renderMap(canvasContext, this.tiledMapOffsets.curOffsetX, this.tiledMapOffsets.curOffsetY);
 			this.player.render(canvasContext);
 		} else {
 			// end level screen

@@ -179,8 +179,9 @@ LPTiledMap.prototype.getTileValue = function(xCoord, yCoord, mapOffsetX, mapOffs
 	console.log(pass);
 }
 
-LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffsetY) {
+LPTiledMap.prototype.resolveCollision = function(position, mapOffsets) {
 	"use strict";
+//	mapOffsetX, mapOffsetY, oldOffsetX
 	var xOld;
 	var yOld;
 	var xNew;
@@ -199,47 +200,57 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 	var pass = false;
 
 	if (xOld == xNew) {
-		//xCheck = xOld;
+		if (mapOffsets.oldOffsetY > mapOffsets.curOffsetX) {
+			xCheck = xNew+32;
+		} else if (mapOffsets.oldOffsetY < mapOffsets.curOffsetX) {
+			xCheck = xNew;
+		}
 	} else if (xOld < xNew) {
 		xCheck = xNew + 32; // Grab right corner
 	} else {
 		xCheck = xNew; // Use left corner
 	}
 	if (yOld == yNew) {
-		// n/a
+
 	} else if (yOld < yNew) {
 		yCheck =  yNew + 32 // Get bottom corner
 	} else {
 		yCheck = yNew; // Use top corner
 	}
 
+	var DEVerrorString = "xOld:" + xOld + " xNew:" + xNew + " mapOffsets.oldOffsetX:" + mapOffsets.oldOffsetX + " mapOffsets.curOffsetX:" + mapOffsets.curOffsetX + " xCheck:" + xCheck;
+
 	// do this as vector addition; xnew w/ yold, vice versa
 
 	// xCheck w/ y and y+31 for both top and bottom of side we need to check
 	for (var i = 0; i < this.tileValues.length; i++) {
-		if (i%this.mapWidth == Math.floor((xCheck-mapOffsetX)/32)) {
+		if (i%this.mapWidth == Math.floor((xCheck-mapOffsets.curOffsetX)/32)) {
 			xMap = i;
 			break;
 		}
 	}
 	for (var i = 0; i < this.tileValues.length; i++) {
-		if (Math.floor(i/this.mapWidth) == Math.floor((yOld-mapOffsetY)/32)) {
+		if (Math.floor(i/this.mapWidth) == Math.floor((yOld-mapOffsets.curOffsetY)/32)) {
 			yMap = i;
 			break;
 		}
 	}
 	tileId = xMap+yMap;
 	pass = this.tileValues[tileId] == 2;
+
+	if (tileId) {
+		DEVerrorString += "\ntileId(1):" + tileId + " pass:" + pass;
+	}
 	// +32 part
 	if (pass) {
 		for (var i = 0; i < this.tileValues.length; i++) {
-			if (i%this.mapWidth == Math.floor((xCheck-mapOffsetX)/32)) {
+			if (i%this.mapWidth == Math.floor((xCheck-mapOffsets.curOffsetX)/32)) {
 				xMap = i;
 				break;
 			}
 		}
 		for (var i = 0; i < this.tileValues.length; i++) {
-			if (Math.floor(i/this.mapWidth) == Math.floor((yOld+31-mapOffsetY)/32)) {
+			if (Math.floor(i/this.mapWidth) == Math.floor((yOld+31-mapOffsets.curOffsetY)/32)) {
 				yMap = i;
 				break;
 			}
@@ -250,11 +261,12 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 	
 	if (!pass) { // & not non-moving? 
 		if (xOld < xNew) {
-			position.xNew = (xMap-1)*32+mapOffsetX;
+			position.xNew = (xMap-1)*32+mapOffsets.curOffsetX;
 		} else if (xOld > xNew) {
-			position.xNew = (xMap+1)*32+mapOffsetX;
+			position.xNew = (xMap+1)*32+mapOffsets.curOffsetX;
 		} else {
 			position.xNew = xOld;
+			mapOffsets.curOffsetX = mapOffsets.oldOffsetX;
 		}
 	} else {
 		position.xNew = xNew;
@@ -263,13 +275,13 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 	pass = false;
 	// yCheck w/ x and x+31 for both left and right of side we need to check
 	for (var i = 0; i < this.tileValues.length; i++) {
-		if (i%this.mapWidth == Math.floor((xOld-mapOffsetX)/32)) {
+		if (i%this.mapWidth == Math.floor((xOld-mapOffsets.curOffsetX)/32)) {
 			xMap = i;
 			break;
 		}
 	}
 	for (var i = 0; i < this.tileValues.length; i++) {
-		if (Math.floor(i/this.mapWidth) == Math.floor((yCheck-mapOffsetY)/32)) {
+		if (Math.floor(i/this.mapWidth) == Math.floor((yCheck-mapOffsets.curOffsetY)/32)) {
 			yMap = i;
 			break;
 		}
@@ -279,13 +291,13 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 	// +32 part
 	if (pass) {
 		for (var i = 0; i < this.tileValues.length; i++) {
-			if (i%this.mapWidth == Math.floor((xOld+31-mapOffsetX)/32)) {
+			if (i%this.mapWidth == Math.floor((xOld+31-mapOffsets.curOffsetX)/32)) {
 				xMap = i;
 				break;
 			}
 		}
 		for (var i = 0; i < this.tileValues.length; i++) {
-			if (Math.floor(i/this.mapWidth) == Math.floor((yCheck-mapOffsetY)/32)) {
+			if (Math.floor(i/this.mapWidth) == Math.floor((yCheck-mapOffsets.curOffsetY)/32)) {
 				yMap = i;
 				break;
 			}
@@ -293,12 +305,12 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 		tileId = xMap+yMap;
 		pass = this.tileValues[tileId] == 2;
 	}
-	
+
 	if (!pass) { // & not non-moving? 
 		if (yOld < yNew) {
-			position.yNew = (yMap/this.mapWidth-1)*32+mapOffsetY;
+			position.yNew = (yMap/this.mapWidth-1)*32+mapOffsets.curOffsetY;
 		} else if (yOld > yNew) {
-			position.yNew = (yMap/this.mapWidth+1)*32+mapOffsetY;
+			position.yNew = (yMap/this.mapWidth+1)*32+mapOffsets.curOffsetY;
 		}else {
 			position.yNew = yOld;
 		}
@@ -306,6 +318,7 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsetX, mapOffset
 		position.yNew = yNew;
 	}
 
+	console.log(DEVerrorString);
 	position.xCurrent = position.xNew;
 	position.yCurrent = position.yNew;
 
