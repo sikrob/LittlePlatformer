@@ -266,7 +266,16 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsets) {
 			position.xNew = (xMap+1)*32+mapOffsets.curOffsetX;
 		} else {
 			position.xNew = xOld;
-			mapOffsets.curOffsetX = mapOffsets.oldOffsetX;
+			if (mapOffsets.curOffsetX < mapOffsets.oldOffsetX) { // p m r
+				if (mapOffsets.oldOffsetX % 32 != 0) {
+					mapOffsets.curOffsetX = mapOffsets.oldOffsetX - mapOffsets.oldOffsetX%32 -32;
+				} else {
+					mapOffsets.curOffsetX = mapOffsets.oldOffsetX;
+				}
+			} else if (mapOffsets.curOffsetX > mapOffsets.oldOffsetX) {
+				mapOffsets.curOffsetX = 160;
+
+			}
 		}
 	} else {
 		position.xNew = xNew;

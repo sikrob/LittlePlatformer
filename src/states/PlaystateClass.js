@@ -32,8 +32,8 @@ function PlaystateClass() {
 	this.gravityVelocityMod = 0.1;
 	this.terminalVelocity = 20;
 
-	this.playerPosLimitLeft = 150;
-	this.playerPosLimitRight = 650;
+	this.playerPosLimitLeft = 192;
+	this.playerPosLimitRight = 608;
 
 	this.jumpSnd = new Audio("res/snd/jump_02.ogg");
 	this.prevTime = new Date().getTime();
