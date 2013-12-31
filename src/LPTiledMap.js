@@ -146,7 +146,7 @@ LPTiledMap.prototype.renderMap = function(canvasContext, mapOffsetX, mapOffsetY)
 				} else {
 					canvasContext.fillStyle = "#000";
 				}
-				canvasContext.fillRect((i%this.mapWidth)*32+mapOffsetX,(Math.floor(i/this.mapWidth))*32+mapOffsetY,32,32);
+				canvasContext.fillRect((i%this.mapWidth)*32+Math.floor(mapOffsetX),(Math.floor(i/this.mapWidth))*32+mapOffsetY,32,32);
 			}
 		}
 	}
