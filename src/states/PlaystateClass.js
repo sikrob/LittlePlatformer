@@ -14,11 +14,6 @@ function PlaystateClass() {
 	this.tiledMapOffsets.oldOffsetX = -1;
 	this.tiledMapOffsets.oldOffsetY = -1;
 
-//	this.mapOffsetX = -1;
-//	this.mapOffsetY = -1;
-//	this.oldOffsetX = -1;
-//	this.oldOffsetY = -1;
-
 	this.mapOffsetSet = false;
 	this.initialized = false;
 	this.completed = false;
@@ -53,11 +48,6 @@ PlaystateClass.prototype.initialize = function () {
 	this.tiledMapOffsets.curOffsetY = -1;
 	this.tiledMapOffsets.oldOffsetX = -1;
 	this.tiledMapOffsets.oldOffsetY = -1;
-
-//	this.mapOffsetX = -1;
-//	this.mapOffsetY = -1;
-//	this.oldOffsetX = -1;
-//	this.oldOffsetY = -1;
 
 	this.mapOffsetSet = false;
 	this.initialized = false;
@@ -221,7 +211,6 @@ PlaystateClass.prototype.render = function (canvasContext) {
 
 	canvasContext.fillStyle = "#5fa";
 	canvasContext.fillRect(0,0,800,600);
-
 	canvasContext.font = oldFont;
 
 	if (this.initialized) {
@@ -236,5 +225,12 @@ PlaystateClass.prototype.render = function (canvasContext) {
 			canvasContext.font = "27px Helvetica";
 			canvasContext.fillText("Level complete!", 312, 250);
 		}
+	} else {
+		canvasContext.font = "48px Helvetica";
+		canvasContext.fillStyle = "#FFF";
+		canvasContext.strokeStyle = "#000";
+		canvasContext.fillText("Loading...",295,300);
+		canvasContext.strokeText("Loading...",295,300);
+		canvasContext.font = oldFont;
 	}
 };

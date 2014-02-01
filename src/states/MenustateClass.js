@@ -92,11 +92,12 @@ MenustateClass.prototype.render = function (canvasContext) {
 	canvasContext.font = "72px Helvetica";
 	canvasContext.fillText("Little Platformer", 140, 100);
 	canvasContext.strokeText("Little Platformer", 140, 100);
+
 	canvasContext.font = "27px Helvetica";
 	canvasContext.fillText("A simple HTML5 game by Robert Sikorski.", 140, 140);
+
 	canvasContext.font = "10px Helvetica";
 	canvasContext.fillText("Version 1", 190, 565);
-	canvasContext.font = "10px Helvetica";
 	canvasContext.fillText("Copyright 2013; see LICENSE.MD at www.github.com/sikrob/LittlePlatformer for details.", 190, 580);
 
 	canvasContext.font = "36px Helvetica";
@@ -120,6 +121,15 @@ MenustateClass.prototype.render = function (canvasContext) {
 		canvasContext.fillText("from dklon via opengameart.org.",120,500);
 		canvasContext.font = "12px Helvetica";
 		canvasContext.fillText("Credit to the people on github who helped out, too.", 120, 520);
+	} else {
+		canvasContext.fillStyle = "#fff";
+		canvasContext.strokeStyle = "#000";
+		canvasContext.font = "32px Helvetica";
+		canvasContext.fillText("Use WASD or arrow keys to move around.", 70, 470);
+		canvasContext.strokeText("Use WASD or arrow keys to move around.", 70, 470);
+		canvasContext.fillText("Use space bar to use the menu or skip screens.", 70, 510);
+		canvasContext.strokeText("Use space bar to use the menu or skip screens.", 70, 510);
+
 	}
 	// /dynamic content
 

@@ -23,6 +23,12 @@ function LPTiledMap() {
 	this.endY = -1;
 }
 
+LPTiledMap.prototype.generateMap = function() {
+	"use strict";
+	console.log("gen map");
+
+}
+
 LPTiledMap.prototype.loadMap = function(mapName) {
 	"use strict";
 	if (this.mapName !== mapName) {
@@ -119,14 +125,20 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 	}
 
 	if (this.mapLoaded == false) {
-		var mapToLoad = "res/mapXML/" + mapName + ".xml"; // This is pretty much the lease safe way to do this.
-		xmlHR.open("GET", mapToLoad); // sanitized mapName goes here.
-		xmlHR.responseType = "document";
-		xmlHR.send();
+		if (mapName !== "gen") {
+			var mapToLoad = "res/mapXML/" + mapName + ".xml"; // This is pretty much the lease safe way to do this.
+			xmlHR.open("GET", mapToLoad); // sanitized mapName goes here.
+			xmlHR.responseType = "document";
+			xmlHR.send();
+		} else {
+			this.generateMap();
+		}
 	}
 
-	var that = this; // An obvious solution from http://stackoverflow.com/questions/2130241/pass-correct-this-context-to-settimeout-callback
-	setTimeout(function() {xmlHR.returnStuff(that)}, 500);
+	if (mapName !== "gen") {
+		var that = this; // An obvious solution from http://stackoverflow.com/questions/2130241/pass-correct-this-context-to-settimeout-callback
+		setTimeout(function() {xmlHR.returnStuff(that)}, 500);
+	}
 
 	this.mapName = mapName;
 };
