@@ -139,22 +139,16 @@ PlaystateClass.prototype.update = function (keysDown) {
 			var tempXPos = this.player.xPosition + tempXVelocity;
 			var tempYPos = this.player.yPosition + tempYVelocity;
 
-			// sketching out canvas movement...
-			// currnetly this breaks collision detection if it happens while mapoffset adjusts
-			// - maybe need to mix the new offset w/ old pos (xCur) to ensure proper calcs...
-			// I believe it breaks due to early check against just pPos and not mOffset
-			if (tempXPos > this.playerPosLimitRight) {
-				this.tiledMapOffsets.oldOffsetX = this.tiledMapOffsets.curOffsetX;
-//				this.oldOffsetX = this.mapOffsetX;
-				this.tiledMapOffsets.curOffsetX -=  tempXPos-this.playerPosLimitRight;
-//				this.mapOffsetX -= tempXPos-this.playerPosLimitRight;
-				tempXPos = this.playerPosLimitRight;
-			} else if (tempXPos < this.playerPosLimitLeft) {
-				this.tiledMapOffsets.oldOffsetX = this.tiledMapOffsets.curOffsetX;
-//				this.oldOffsetX = this.mapOffsetX;
-				this.tiledMapOffsets.curOffsetX -= tempXPos-this.playerPosLimitLeft;
-//				this.mapOffsetX -= tempXPos-this.playerPosLimitLeft;
-				tempXPos = this.playerPosLimitLeft;
+			if (this.tiledMap.mapPXWidth > 800) {
+				if (tempXPos > this.playerPosLimitRight) {
+					this.tiledMapOffsets.oldOffsetX = this.tiledMapOffsets.curOffsetX;
+					this.tiledMapOffsets.curOffsetX -=  tempXPos-this.playerPosLimitRight;
+					tempXPos = this.playerPosLimitRight;
+				} else if (tempXPos < this.playerPosLimitLeft) {
+					this.tiledMapOffsets.oldOffsetX = this.tiledMapOffsets.curOffsetX;
+					this.tiledMapOffsets.curOffsetX -= tempXPos-this.playerPosLimitLeft;
+					tempXPos = this.playerPosLimitLeft;
+				}
 			}
 
 			this.player.position.xNew = tempXPos;
