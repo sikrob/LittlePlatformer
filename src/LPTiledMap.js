@@ -51,7 +51,7 @@ LPTiledMap.prototype.loadMap = function(mapName) {
 					} else if (tempAttribute.name == "firstgid") { // do nothing
 					} else if (tempAttribute.name == "tilewidth") {
 						this.tileSetTileWidth = tempAttribute.value;
-					} else if (tempAttribute.name = "tileheight") {
+					} else if (tempAttribute.name == "tileheight") {
 						this.tileSetTileHeight = tempAttribute.value;
 					}
 				}
@@ -270,8 +270,8 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsets) {
 		tileId = xMap+yMap;
 		pass = this.tileValues[tileId] == 2;
 	}
-	
-	if (!pass) { // & not non-moving? 
+
+	if (!pass) { // & not non-moving?
 		if (xOld < xNew) {
 			position.xNew = (xMap-1)*32+mapOffsets.curOffsetX;
 		} else if (xOld > xNew) {
@@ -327,7 +327,7 @@ LPTiledMap.prototype.resolveCollision = function(position, mapOffsets) {
 		pass = this.tileValues[tileId] == 2;
 	}
 
-	if (!pass) { // & not non-moving? 
+	if (!pass) { // & not non-moving?
 		if (yOld < yNew) {
 			position.yNew = (yMap/this.mapWidth-1)*32+mapOffsets.curOffsetY;
 		} else if (yOld > yNew) {
